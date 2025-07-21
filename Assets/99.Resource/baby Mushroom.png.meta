@@ -202,21 +202,21 @@ TextureImporter:
       guid: d27d799d4fb6f2b48bac2d9bca30502c
       position: {x: -270.35077, y: -221.05667, z: -2}
       rotation: {x: 0, y: -0, z: -0.9999703, w: 0.007708668}
-      length: 73.58068
+      length: 73.58065
       parentId: 1
       color:
         serializedVersion: 2
         rgba: 4286643968
-    - name: bone_10
+    - name: Left_Foot
       guid: f93a4090bfd36364e9fe001b1abe35de
-      position: {x: 73.58065, y: 0.0000004962276, z: 6}
-      rotation: {x: 0, y: 0, z: 0.76469886, w: 0.6443879}
+      position: {x: 73.58062, y: 0.000004619519, z: 6}
+      rotation: {x: 0, y: 0, z: 0.7646988, w: 0.6443879}
       length: 66.02935
       parentId: 8
       color:
         serializedVersion: 2
         rgba: 4294934528
-    - name: Left_foot
+    - name: Left_head
       guid: 00ca1db2cca684248a0506207a1465ca
       position: {x: 348.5174, y: 11.344834, z: -2}
       rotation: {x: 0, y: 0, z: 0.031495564, w: 0.9995039}
