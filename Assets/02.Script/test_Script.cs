@@ -5,6 +5,10 @@ public class test_Script : MonoBehaviour
 
     public GameObject prefab;
 
+    private void OnEnable()
+    {
+        Debug.Log("¿ÁΩ√¿€");
+    }
     // Update is called once per frame
     void Update()
     {
