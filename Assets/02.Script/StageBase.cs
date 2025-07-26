@@ -13,17 +13,19 @@ public abstract class StageBase : MonoBehaviour
     public GameObject player;
     public Image prograssbar;
 
+    protected float finishTime = 0f;
     protected int level;
     protected float playTime = 5f;
     protected float endingTime = 2f;
     
+    protected bool timeclear = false;
 
     protected Vector3 startPosition;
     protected Vector3 endPosition;
 
     protected virtual void OnEnable()
     {
-
+        timeclear = false;
         clearAction.SetActive(false);
         failAction.SetActive(false);
 
@@ -48,7 +50,15 @@ public abstract class StageBase : MonoBehaviour
         }
 
         prograssbar.fillAmount = 0f;
-        StartCoroutine(FailEnding());
+
+        if (timeclear)
+        {
+            MissionClear();
+        }
+        else
+        {
+            StartCoroutine(FailEnding());
+        }
 
     }
 
@@ -63,7 +73,7 @@ public abstract class StageBase : MonoBehaviour
 
     protected virtual IEnumerator ClearEnding()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(finishTime);
         clearAction.SetActive(true);
         yield return new WaitForSeconds(endingTime);
         stageManager.isStagenext = true;
@@ -71,7 +81,7 @@ public abstract class StageBase : MonoBehaviour
 
     protected virtual IEnumerator FailEnding()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(finishTime);
         failAction.SetActive(true);
         stageManager.Life--;
         yield return new WaitForSeconds(endingTime);

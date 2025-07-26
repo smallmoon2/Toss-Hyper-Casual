@@ -184,14 +184,14 @@ TextureImporter:
       guid: 2cdb509c19b7f1e45aac81c13123d5e6
       position: {x: -142.79565, y: 225.13364, z: 6}
       rotation: {x: 0, y: -0, z: 0.9301268, w: 0.36723855}
-      length: 61.10537
+      length: 61.105328
       parentId: 1
       color:
         serializedVersion: 2
         rgba: 4278223103
     - name: Right_Foot
       guid: 4c2402d6e472b8c498f509cf10a06943
-      position: {x: 61.10533, y: -0.00000075563185, z: 6}
+      position: {x: 61.10529, y: 0.0000025544905, z: 6}
       rotation: {x: 0, y: 0, z: 0.7554537, w: 0.65520215}
       length: 43.20816
       parentId: 6
@@ -200,10 +200,10 @@ TextureImporter:
         rgba: 4278255488
     - name: Left_leg
       guid: 59a266fd3aefb914087905ef7eda95e2
-      position: {x: 15.511168, y: -192.60925, z: -2}
-      rotation: {x: 0, y: -0, z: -0.99657834, w: 0.08265373}
+      position: {x: -134.30286, y: -189.86641, z: -2}
+      rotation: {x: 0, y: 0, z: -0.99738145, w: 0.07232099}
       length: 70.84343
-      parentId: 0
+      parentId: 1
       color:
         serializedVersion: 2
         rgba: 4286643968

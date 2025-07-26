@@ -7,7 +7,7 @@ public class test_Script : MonoBehaviour
 
     private void OnEnable()
     {
-        Debug.Log("재시작");
+
     }
     // Update is called once per frame
     void Update()
@@ -17,7 +17,6 @@ public class test_Script : MonoBehaviour
 
             Instantiate(prefab);
 
-            Debug.Log("입력");
         }
     }
 }

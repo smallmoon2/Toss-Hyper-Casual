@@ -10,6 +10,7 @@ public class Stage1 : StageBase
 
     protected override void OnEnable()
     {
+        finishTime = 1f;
         touchCount = 0;
         maxTouches = 10;
         playTime = 5f;

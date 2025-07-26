@@ -48,7 +48,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 500
+  spritePixelsToUnits: 300
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -202,21 +202,21 @@ TextureImporter:
       guid: d27d799d4fb6f2b48bac2d9bca30502c
       position: {x: -270.35077, y: -221.05667, z: -2}
       rotation: {x: 0, y: -0, z: -0.9999703, w: 0.007708668}
-      length: 73.58065
+      length: 73.58062
       parentId: 1
       color:
         serializedVersion: 2
         rgba: 4286643968
     - name: Left_Foot
       guid: f93a4090bfd36364e9fe001b1abe35de
-      position: {x: 73.58062, y: 0.000004619519, z: 6}
-      rotation: {x: 0, y: 0, z: 0.7646988, w: 0.6443879}
+      position: {x: 73.58059, y: 0.000008742811, z: 6}
+      rotation: {x: 0, y: 0, z: 0.7646988, w: 0.64438796}
       length: 66.02935
       parentId: 8
       color:
         serializedVersion: 2
         rgba: 4294934528
-    - name: Left_head
+    - name: Head
       guid: 00ca1db2cca684248a0506207a1465ca
       position: {x: 348.5174, y: 11.344834, z: -2}
       rotation: {x: 0, y: 0, z: 0.031495564, w: 0.9995039}

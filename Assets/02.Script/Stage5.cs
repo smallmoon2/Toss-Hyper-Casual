@@ -1,13 +1,13 @@
 using UnityEngine;
 
-public class Stage2 : StageBase
+public class Stage5 : StageBase
 {
-    public LineDrawBlocker2D lineDrawer;
+    public Stage5_LineDraw lineDrawer;
     private bool stage2Next;
     protected override void OnEnable()
     {
         finishTime = 0.5f;
-        playTime = 20f;
+        playTime = 10f;
         endingTime = 2f;
         base.OnEnable();
         stage2Next = false;
@@ -16,20 +16,13 @@ public class Stage2 : StageBase
 
     private void Update()
     {
-        if (lineDrawer.iscrash && !stage2Next)
-        {
-            Debug.Log("角菩 贸府");
-            StartCoroutine(FailEnding());
-            stage2Next = true;
 
-        }
 
-        if (lineDrawer.isGoalReached && !stage2Next )
+        if (lineDrawer.lineCount >= 8 && !stage2Next)
         {
             Debug.Log("己傍 贸府");
             StartCoroutine(ClearEnding());
             stage2Next = true;
         }
     }
-
 }
