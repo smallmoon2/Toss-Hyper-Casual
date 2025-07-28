@@ -5,11 +5,13 @@ using UnityEngine.UI;
 public class Stage6 : StageBase
 {
     private int touchCount = 0;
+    private bool isfinish = false;
     public int maxTouches = 15;
     public GameObject enemyMush;
 
     protected override void OnEnable()
     {
+        isfinish = false;
         finishTime = 1f;
         touchCount = 0;
         maxTouches = 15;
@@ -27,7 +29,10 @@ public class Stage6 : StageBase
         if (Input.GetMouseButtonDown(0) ||
             (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began))
         {
-            HandleTouch();
+            if (!isfinish)
+            {
+                HandleTouch();
+            }
         }
     }
 
@@ -94,6 +99,8 @@ public class Stage6 : StageBase
         // º¸Á¤
         enemyMush.transform.position = endPosEnemy;
         enemyMush.transform.localScale = endScale;
+        isfinish = true;
+
     }
 
     protected override void MissionClear()

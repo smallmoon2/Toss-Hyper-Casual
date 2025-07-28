@@ -51,6 +51,7 @@ public abstract class StageBase : MonoBehaviour
 
         prograssbar.fillAmount = 0f;
 
+        Debug.Log(timeclear);
         if (timeclear)
         {
             MissionClear();
@@ -66,13 +67,14 @@ public abstract class StageBase : MonoBehaviour
     {
 
         StopAllCoroutines();
-        prograssbar.fillAmount = 1f;
+        
         //enabled = false;
         StartCoroutine(ClearEnding());
     }
 
     protected virtual IEnumerator ClearEnding()
     {
+        prograssbar.fillAmount = 1f;
         yield return new WaitForSeconds(finishTime);
         clearAction.SetActive(true);
         yield return new WaitForSeconds(endingTime);
@@ -81,6 +83,7 @@ public abstract class StageBase : MonoBehaviour
 
     protected virtual IEnumerator FailEnding()
     {
+        prograssbar.fillAmount = 1f;
         yield return new WaitForSeconds(finishTime);
         failAction.SetActive(true);
         stageManager.Life--;
