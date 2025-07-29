@@ -9,6 +9,7 @@ TagManager:
   - Ground
   - Rope
   - Line
+  - Baby
   layers:
   - Default
   - TransparentFX

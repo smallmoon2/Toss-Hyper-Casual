@@ -13,7 +13,6 @@ public class Stage8 : StageBase
     protected override void OnEnable()
     {
         base.OnEnable();
-
         finishTime = 1;
         stage8Next = false;
         playTime = 7;
@@ -21,7 +20,7 @@ public class Stage8 : StageBase
 
         
         float direction = Random.value < 0.5f ? -1f : 1f;
-        bodyRb.AddTorque(torqueForce * direction, ForceMode2D.Force);
+        bodyRb.AddTorque(1 * direction, ForceMode2D.Force);
     }
 
     void Update()

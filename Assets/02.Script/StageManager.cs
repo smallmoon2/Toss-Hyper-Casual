@@ -8,7 +8,7 @@ public class StageManager : MonoBehaviour
 
     public GameObject[] Stages;
     public GameObject scoreStage;
-    private int curStage;
+    public int curStage;
     public int StageLevel;
     public int Life = 3;
 
@@ -60,9 +60,10 @@ public class StageManager : MonoBehaviour
     protected virtual void OnPlay()
     {
         
-        if(isStagePlaying == false)
+        if (isStagePlaying == false)
         {
             // ScoreStage 비활성화 및 다음 stage 활성화
+            Debug.Log("다음단계 활성화");
             scoreStage.SetActive(false);
             Stages[curStage].SetActive(false);
             Stages[curStage].SetActive(true);
