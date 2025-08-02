@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: RightX
-  m_Shader: {fileID: 4800000, guid: 18d150c6e7d2b7d49abb1247f8e0f84c, type: 3}
+  m_Shader: {fileID: 4800000, guid: d946f114367aebc46b5cf3371b662f88, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -49,7 +49,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 55abde77031298d48a0ff2e178209a09, type: 3}
+        m_Texture: {fileID: 2800000, guid: 980fc87a9c50e1840b5465dd839af276, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:

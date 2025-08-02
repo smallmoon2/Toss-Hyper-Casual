@@ -33,7 +33,7 @@ public class ScoreStage : MonoBehaviour
     private IEnumerator Playtime()
     {
 
-        Debug.Log("Ãâ·Â¾ÈµÊ");
+
         yield return new WaitForSeconds(playTime);
 
         stageManager.currentState = StageState.Read;

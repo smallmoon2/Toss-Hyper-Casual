@@ -7,24 +7,34 @@ public class Stage1 : StageBase
     public Door_Screen door;
     private int touchCount = 0;
     public int maxTouches = 10;
+    private Animator anim;
 
+
+    private bool isFinshed = false;
     protected override void OnEnable()
     {
         finishTime = 1f;
         touchCount = 0;
         maxTouches = 10;
+        isFinshed = false;
         playTime = 5f;
         endingTime = 2f;
         base.OnEnable();
         door.OpenDoor();
+        anim = player.GetComponent<Animator>();
     }
 
     private void Update()
     {
+        Debug.Log(isFinshed);
         if (Input.GetMouseButtonDown(0) ||
             (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began))
         {
-            HandleTouch();
+            if (!isFinshed)
+            {
+                HandleTouch();
+            }
+            
         }
     }
 
@@ -44,7 +54,7 @@ public class Stage1 : StageBase
         float elapsed = 0f;
 
         //  애니메이션 시작: IsRun = true
-        Animator anim = player.GetComponent<Animator>();
+        
         if (anim != null)
         {
             anim.SetBool("IsRun", true);
@@ -60,11 +70,7 @@ public class Stage1 : StageBase
 
         player.transform.position = target;
 
-        //  애니메이션 종료: IsRun = false
-        if (anim != null)
-        {
-            anim.SetBool("IsRun", false);
-        }
+
 
         if (touchCount >= maxTouches && Vector3.Distance(target, endPosition) < 0.01f)
         {
@@ -75,13 +81,23 @@ public class Stage1 : StageBase
 
     protected override void MissionClear()
     {
+        if (anim != null)
+        {
+            anim.SetBool("IsRun", false);
+        }
         door.CloseDoor();           // 먼저 문 닫기
         base.MissionClear();        // 기본 미션 클리어 처리 실행
     }
     protected override IEnumerator UpdateProgressBar()
     {
-               // 먼저 문 닫기
+ 
+        // 먼저 문 닫기
         yield return base.UpdateProgressBar();
         door.CloseDoor();
+        if (anim != null)
+        {
+            anim.SetTrigger("IsFowardDown");
+        }
+        isFinshed = true;
     }
 }

@@ -17,7 +17,7 @@ public abstract class StageBase : MonoBehaviour
     protected int level;
     protected float playTime = 5f;
     protected float endingTime = 2f;
-    
+    public bool isClear = false;
     protected bool timeclear = false;
 
     protected Vector3 startPosition;
@@ -28,7 +28,7 @@ public abstract class StageBase : MonoBehaviour
         timeclear = false;
         clearAction.SetActive(false);
         failAction.SetActive(false);
-
+        isClear = false;
         level = stageManager.StageLevel;
         playTime -= 0.7f * level;
 
@@ -51,7 +51,7 @@ public abstract class StageBase : MonoBehaviour
 
         prograssbar.fillAmount = 0f;
 
-        Debug.Log(timeclear);
+
         if (timeclear)
         {
             MissionClear();
@@ -74,6 +74,7 @@ public abstract class StageBase : MonoBehaviour
 
     protected virtual IEnumerator ClearEnding()
     {
+        isClear = true;
         stageManager.scoreNum = stageManager.scoreNum + 100;
         prograssbar.fillAmount = 1f;
         yield return new WaitForSeconds(finishTime);
