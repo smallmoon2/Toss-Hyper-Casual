@@ -74,6 +74,7 @@ public abstract class StageBase : MonoBehaviour
 
     protected virtual IEnumerator ClearEnding()
     {
+        stageManager.scoreNum = stageManager.scoreNum + 100;
         prograssbar.fillAmount = 1f;
         yield return new WaitForSeconds(finishTime);
         clearAction.SetActive(true);
@@ -83,6 +84,7 @@ public abstract class StageBase : MonoBehaviour
 
     protected virtual IEnumerator FailEnding()
     {
+
         prograssbar.fillAmount = 1f;
         yield return new WaitForSeconds(finishTime);
         failAction.SetActive(true);

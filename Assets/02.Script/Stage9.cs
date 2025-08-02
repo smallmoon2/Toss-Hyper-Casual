@@ -15,7 +15,7 @@ public class Stage9 : StageBase
 
     private float currentZ = 0f; // 수동으로 추적할 회전값
 
-    void Start()
+    protected override void OnEnable()
     {
         playTime = 5f;
         finishTime = 2f;

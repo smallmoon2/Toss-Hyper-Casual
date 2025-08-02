@@ -43,6 +43,13 @@ public class Stage1 : StageBase
         Vector3 initialPos = player.transform.position;
         float elapsed = 0f;
 
+        //  애니메이션 시작: IsRun = true
+        Animator anim = player.GetComponent<Animator>();
+        if (anim != null)
+        {
+            anim.SetBool("IsRun", true);
+        }
+
         while (elapsed < duration)
         {
             elapsed += Time.deltaTime;
@@ -53,11 +60,18 @@ public class Stage1 : StageBase
 
         player.transform.position = target;
 
+        //  애니메이션 종료: IsRun = false
+        if (anim != null)
+        {
+            anim.SetBool("IsRun", false);
+        }
+
         if (touchCount >= maxTouches && Vector3.Distance(target, endPosition) < 0.01f)
         {
             MissionClear();
         }
     }
+
 
     protected override void MissionClear()
     {
