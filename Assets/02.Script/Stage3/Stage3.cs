@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class Stage3 : StageBase
 {
+    public Stage3_Clear Stage3_Clear;
     private Vector3 dragStartPos;
     private bool isDragging = false;
     public float detectThreshold = 0.5f; // °¨Áö ¹Î°¨µµ
@@ -14,6 +15,7 @@ public class Stage3 : StageBase
     protected override void OnEnable()
     {
         base.OnEnable();
+        Stage3_Clear.GameReset();
         isDragging = false;
         point = 1;
         dragStartPos = Vector3.zero;
@@ -21,8 +23,10 @@ public class Stage3 : StageBase
 
     private void Update()
     {
-        HandleMouseDrag();
-
+        if (!isFinshed)
+        {
+            HandleMouseDrag();
+        }
 
     }
 

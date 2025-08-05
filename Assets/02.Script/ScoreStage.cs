@@ -18,8 +18,11 @@ public class ScoreStage : MonoBehaviour
 
     void OnEnable()
     {
+        playTime = 4;
         level = stageManager.StageLevel;
         playTime = playTime - (0.7f * (float)level);
+
+        Debug.Log(playTime);
 
         if (stageManager.Life < 3)
         {

@@ -3,11 +3,13 @@ using System.Collections;
 
 public abstract class StageClearBase : MonoBehaviour
 {
-    protected abstract bool IsStageClear();
+    public StageBase StageBase;
+    protected  bool IsStageClear;
 
     protected virtual void OnEnable()
     {
-        if (IsStageClear())
+
+        if (StageBase.isClear)
             StartCoroutine(HandleClear());
         else
             StartCoroutine(HandleFail());

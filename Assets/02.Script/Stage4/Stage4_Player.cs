@@ -4,23 +4,33 @@ using System.Collections;
 public class Stage4_Player : MonoBehaviour
 {
     private Rigidbody2D playerRb;
+    private Animator anim;
     public float surviveTime = 5f;
 
     private float jumpDelay = 1.1f;
     private bool isGround = false;
     private bool canJump = true; // 점프 쿨타임 여부
     public bool isCrash = false;
+
     void Start()
     {
+        anim = GetComponent<Animator>();
         playerRb = GetComponent<Rigidbody2D>();
     }
-
+    private void OnEnable()
+    {
+        isCrash = false;
+    }
     private void Update()
     {
         if (Input.GetMouseButtonDown(0) && isGround && canJump)
         {
             playerRb.AddForce(Vector2.up * 4f, ForceMode2D.Impulse);
             canJump = false;
+
+            // 애니메이션에 IsJump 활성화
+            anim.SetBool("IsJump", true);
+
             StartCoroutine(JumpCooldown());
         }
     }
@@ -37,6 +47,9 @@ public class Stage4_Player : MonoBehaviour
         {
             Debug.Log("착지");
             isGround = true;
+
+            // 착지하면 IsJump 비활성화
+            anim.SetBool("IsJump", false);
         }
     }
 

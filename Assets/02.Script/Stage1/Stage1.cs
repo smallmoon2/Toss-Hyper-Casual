@@ -10,13 +10,12 @@ public class Stage1 : StageBase
     private Animator anim;
 
 
-    private bool isFinshed = false;
+    
     protected override void OnEnable()
     {
         finishTime = 1f;
         touchCount = 0;
         maxTouches = 10;
-        isFinshed = false;
         playTime = 5f;
         endingTime = 2f;
         base.OnEnable();

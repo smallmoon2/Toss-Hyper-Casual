@@ -4,13 +4,20 @@ using UnityEngine;
 public class Stage1_Clear : MonoBehaviour
 {
     public GameObject subway;
+    private Vector3 startSubwayPos;
     public float moveSpeed = 5f;
     public float targetX = 20f;
 
     private bool hasStartedMoving = false;
 
+    private void Awake()
+    {
+        startSubwayPos = subway.transform.position;
+    }
     void OnEnable()
     {
+        hasStartedMoving = false;
+        subway.transform.position = startSubwayPos;
         if (subway != null && !hasStartedMoving)
         {
             hasStartedMoving = true;

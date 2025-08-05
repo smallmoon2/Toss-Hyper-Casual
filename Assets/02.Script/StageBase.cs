@@ -19,12 +19,14 @@ public abstract class StageBase : MonoBehaviour
     protected float endingTime = 2f;
     public bool isClear = false;
     protected bool timeclear = false;
+    protected bool isFinshed = false;
 
     protected Vector3 startPosition;
     protected Vector3 endPosition;
 
     protected virtual void OnEnable()
     {
+        isFinshed = false;
         timeclear = false;
         clearAction.SetActive(false);
         failAction.SetActive(false);
@@ -94,4 +96,6 @@ public abstract class StageBase : MonoBehaviour
         
         stageManager.isStagenext = true;
     }
+
+    
 }

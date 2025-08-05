@@ -3,13 +3,13 @@ using UnityEngine;
 
 public class Stage2_Clear : StageClearBase
 {
-    public Stage2 stage2;
+
     public Transform targetObject;
     public Transform startPos;
     public Transform endPos;
     public float moveDuration = 1.5f;
 
-    protected override bool IsStageClear() => stage2.isClear;
+
 
     protected override IEnumerator Clear()
     {
