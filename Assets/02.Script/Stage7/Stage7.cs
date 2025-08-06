@@ -4,15 +4,31 @@ using UnityEngine.UI;
 
 public class Stage7 : StageBase
 {
+    public MaskController maskController;
     private int touchCount = 0;
     public int maxTouches = 10;
     private float touchtime = 0.3f;
+    private float walkDuration = 0.5f;
 
     private float lastTouchTime = -10f;
     private bool isFailing = false;
 
+    private Animator anim;
+    private Coroutine walkResetCoroutine;
+
     protected override void OnEnable()
     {
+        maskController.ActivateMaskChild(0);
+        anim = player.GetComponent<Animator>();
+        anim.SetBool("IsSliding", true);
+        anim.SetBool("IsSliding", false);
+
+        if (walkResetCoroutine != null)
+        {
+            StopCoroutine(walkResetCoroutine);
+            walkResetCoroutine = null;
+        }
+
         finishTime = 1f;
         touchCount = 0;
         maxTouches = 10;
@@ -20,6 +36,7 @@ public class Stage7 : StageBase
         endingTime = 2f;
         lastTouchTime = -10f;
         isFailing = false;
+
         base.OnEnable();
     }
 
@@ -37,9 +54,12 @@ public class Stage7 : StageBase
         if (isFailing || touchCount >= maxTouches) return;
 
         float now = Time.time;
+
         if (now - lastTouchTime < touchtime)
         {
-            Debug.Log("빠르게 두 번 터치됨 → 실패");
+            Debug.Log("빠르게 두 번 터치됨 → 슬라이딩");
+ 
+            anim.SetBool("IsSliding", true);
             StartCoroutine(FailEnding());
             isFailing = true;
             return;
@@ -47,10 +67,27 @@ public class Stage7 : StageBase
 
         lastTouchTime = now;
 
+        // 걷기 애니메이션 Bool
+        anim.SetBool("IsWalkB", true);
+
+        // 이전 코루틴 중지 후 새로 시작
+        if (walkResetCoroutine != null)
+        {
+            StopCoroutine(walkResetCoroutine);
+        }
+        walkResetCoroutine = StartCoroutine(WalkBoolResetTimer());
+
+        // 움직임
         touchCount++;
         float t = touchCount / (float)maxTouches;
         Vector3 targetPos = Vector3.Lerp(startPosition, endPosition, t);
         StartCoroutine(MoveToPosition(targetPos, 0.3f));
+    }
+
+    private IEnumerator WalkBoolResetTimer()
+    {
+        yield return new WaitForSeconds(walkDuration);
+        anim.SetBool("IsWalkB", false);
     }
 
     private IEnumerator MoveToPosition(Vector3 target, float duration)
@@ -76,11 +113,13 @@ public class Stage7 : StageBase
 
     protected override void MissionClear()
     {
-        base.MissionClear(); // 기본 미션 클리어 처리 실행
+        anim.SetTrigger("IsWin");
+        base.MissionClear();
     }
 
     protected override IEnumerator UpdateProgressBar()
     {
-        yield return base.UpdateProgressBar(); // 기본 진행바 업데이트 실행
+        yield return base.UpdateProgressBar();
+        anim.SetTrigger("IsSliding");
     }
 }

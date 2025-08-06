@@ -4,22 +4,25 @@ using UnityEngine.UI;
 
 public class Stage6 : StageBase
 {
+    public Stage6_Clear Stage6_Clear;
     private int touchCount = 0;
     private bool isfinish = false;
     public int maxTouches = 15;
     public GameObject enemyMush;
-
+    private Animator anim;
+    private Animator enemyMushAnim;
     protected override void OnEnable()
     {
         isfinish = false;
-        finishTime = 1f;
+        finishTime = 0.2f;
         touchCount = 0;
         maxTouches = 15;
         playTime = 5f;
         endingTime = 2f;
-
+        enemyMushAnim = enemyMush.GetComponent<Animator>();
+        anim = player.GetComponent<Animator>();
         base.OnEnable();
-
+        Stage6_Clear.GameReset();
         // 적 버섯 자동 이동 시작
         StartCoroutine(MoveEnemyToEnd());
     }
@@ -55,6 +58,11 @@ public class Stage6 : StageBase
         Vector3 initialScale = player.transform.localScale;
         float elapsed = 0f;
 
+        if (anim != null)
+        {
+            anim.SetBool("IsRun", true);
+        }
+
         while (elapsed < duration)
         {
             elapsed += Time.deltaTime;
@@ -84,6 +92,10 @@ public class Stage6 : StageBase
 
         float elapsed = 0f;
 
+        if (enemyMushAnim != null)
+        {
+            enemyMushAnim.SetBool("IsRun", true);
+        }
         while (elapsed < playTime)
         {
             elapsed += Time.deltaTime;
@@ -101,10 +113,20 @@ public class Stage6 : StageBase
         enemyMush.transform.localScale = endScale;
         isfinish = true;
 
+        if (enemyMushAnim != null)
+        {
+            enemyMushAnim.SetTrigger("IsWin");
+        }
+
     }
 
     protected override void MissionClear()
     {
+        if (anim != null)
+        {
+            anim.SetBool("IsRun", false);
+        }
+
         base.MissionClear();
     }
 

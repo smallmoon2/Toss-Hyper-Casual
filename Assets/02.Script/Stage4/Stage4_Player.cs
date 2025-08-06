@@ -12,13 +12,14 @@ public class Stage4_Player : MonoBehaviour
     private bool canJump = true; // 점프 쿨타임 여부
     public bool isCrash = false;
 
-    void Start()
+    void Awake()
     {
         anim = GetComponent<Animator>();
         playerRb = GetComponent<Rigidbody2D>();
     }
     private void OnEnable()
     {
+        anim.ResetTrigger("MyTrigger");
         isCrash = false;
     }
     private void Update()
