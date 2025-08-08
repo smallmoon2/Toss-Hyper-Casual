@@ -3,6 +3,7 @@ using UnityEngine.UI;
 
 public class StarCatch : MonoBehaviour
 {
+    public StageBase stage;
     public Slider slider;
     public RectTransform rangeBox;
 
@@ -14,6 +15,7 @@ public class StarCatch : MonoBehaviour
 
     void OnEnable()
     {
+
         isCatch = isStarCatch.Play;
         isMoving = false;
         StartSlider();
@@ -34,13 +36,17 @@ public class StarCatch : MonoBehaviour
         float randX = 540f;
         float randWidth = 150f;
         rangeBox.anchoredPosition = new Vector2(randX, 0);
-
         rangeBox.sizeDelta = new Vector2(randWidth, rangeBox.sizeDelta.y);
 
-        LeanTween.value(gameObject, 0f, 100f, 1f)
+        // 레벨에 따라 속도 계산 (레벨이 높을수록 빠르게 → duration은 짧게)
+        int level = Mathf.Clamp(stage.level, 1, 4); // 1~5 보정
+        float duration = Mathf.Lerp(1f, 0.5f, (level - 1) / 3f); // 1레벨일 때 1초, 5레벨일 때 0.3초
+
+        LeanTween.value(gameObject, 0f, 100f, duration)
             .setOnUpdate(val => slider.value = val)
             .setLoopPingPong();
     }
+
 
     void StopSlider()
     {

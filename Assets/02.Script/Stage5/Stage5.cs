@@ -7,6 +7,8 @@ public class Stage5 : StageBase
     private bool stage2Next;
     protected override void OnEnable()
     {
+        maxPlayTime = 5f;  // 최대 시간
+        minPlayTime = 3f;  // 최소 시간
         finishTime = 0.5f;
         playTime = 10f;
         endingTime = 2f;
@@ -20,8 +22,9 @@ public class Stage5 : StageBase
 
         if (lineDrawer.lineCount >= 12 && !stage2Next)
         {
+            lineDrawer.isFinished = true;
             Debug.Log("성공 처리");
-            StartCoroutine(ClearEnding());
+            MissionClear();
             stage2Next = true;
         }
     }

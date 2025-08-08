@@ -1,33 +1,34 @@
 using System.Collections;
 using UnityEngine;
 
-public class Stage6_Clear : StageClearBase
+public class Stage9_Clear : StageClearBase
 {
+
     public Transform blueObject;
-    private Animator animator;
+    public Transform babyObject;
 
     protected override void OnEnable()
     {
 
-        animator = blueObject.GetComponent<Animator>();
+
         base.OnEnable();
 
     }
 
     protected override IEnumerator Clear()
     {
-        animator.SetTrigger("IsWin");
+
         ActivateMaskChildren(blueObject, 2);
+        ActivateMaskChildren(babyObject, 2);
         yield return null;
     }
 
     protected override IEnumerator Fail()
     {
-        animator.SetBool("IsRun", false);
+
 
         ActivateMaskChildren(blueObject, 1);
- 
-
+        ActivateMaskChildren(babyObject, 3);
 
 
         yield return null;
@@ -77,5 +78,8 @@ public class Stage6_Clear : StageClearBase
     public void GameReset()
     {
         ActivateMaskChildren(blueObject, 0);
+        ActivateMaskChildren(babyObject, 0);
     }
+
+
 }

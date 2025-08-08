@@ -25,7 +25,7 @@ public class Stage1 : StageBase
 
     private void Update()
     {
-        Debug.Log(isFinshed);
+
         if (Input.GetMouseButtonDown(0) ||
             (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began))
         {
@@ -95,8 +95,25 @@ public class Stage1 : StageBase
         door.CloseDoor();
         if (anim != null)
         {
-            anim.SetTrigger("IsFowardDown");
+            anim.SetBool("IsFowardDown", true);
         }
         isFinshed = true;
     }
+
+    protected override IEnumerator FailEnding()
+    {
+
+        prograssbar.fillAmount = 1f;
+        anim.SetBool("IsRun", false);
+        yield return new WaitForSeconds(finishTime);
+        failAction.SetActive(true);
+        stageManager.Life--;
+
+        yield return new WaitForSeconds(endingTime);
+
+        Debug.Log("오버라이딩");
+        anim.SetBool("IsFowardDown", false);
+        stageManager.isStagenext = true;
+    }
+
 }

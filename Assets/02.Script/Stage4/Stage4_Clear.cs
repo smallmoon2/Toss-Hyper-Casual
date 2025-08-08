@@ -23,7 +23,7 @@ public class Stage4_Clear : StageClearBase
 
     protected override IEnumerator Fail()
     {
-        animator.SetTrigger("IsFowardDownFast");
+        animator.SetBool("IsFowardDown", true);
 
         ActivateMaskChildren(blueObject, 3);
         Debug.Log("½ÇÆÐ");

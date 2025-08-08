@@ -67,7 +67,7 @@ public class Stage2_Clear : StageClearBase
         if (anim)
         {
             anim.SetBool("IsRun", false);
-            anim.SetTrigger("IsFowardDown");
+            anim.SetBool("IsFowardDown", true);
         }
     }
 }

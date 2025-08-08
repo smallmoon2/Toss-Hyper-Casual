@@ -18,10 +18,11 @@ public class Stage7 : StageBase
 
     protected override void OnEnable()
     {
+        maxPlayTime = 7f;  // 최대 시간
+        minPlayTime = 4.5f;  // 최소 시간
         maskController.ActivateMaskChild(0);
         anim = player.GetComponent<Animator>();
-        anim.SetBool("IsSliding", true);
-        anim.SetBool("IsSliding", false);
+
 
         if (walkResetCoroutine != null)
         {
@@ -33,7 +34,7 @@ public class Stage7 : StageBase
         touchCount = 0;
         maxTouches = 10;
         playTime = 5f;
-        endingTime = 2f;
+        endingTime = 1f;
         lastTouchTime = -10f;
         isFailing = false;
 
@@ -120,6 +121,21 @@ public class Stage7 : StageBase
     protected override IEnumerator UpdateProgressBar()
     {
         yield return base.UpdateProgressBar();
-        anim.SetTrigger("IsSliding");
+        anim.SetBool("IsSliding", true);
+
+    }
+
+    protected override IEnumerator FailEnding()
+    {
+
+        prograssbar.fillAmount = 1f;
+        yield return new WaitForSeconds(finishTime);
+        failAction.SetActive(true);
+        stageManager.Life--;
+        yield return new WaitForSeconds(endingTime);
+
+        Debug.Log("오버라이딩");
+        anim.SetBool("IsSliding", false);
+        stageManager.isStagenext = true;
     }
 }

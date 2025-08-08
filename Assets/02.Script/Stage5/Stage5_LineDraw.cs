@@ -8,7 +8,7 @@ public class Stage5_LineDraw : MonoBehaviour
     public float minDragDistance = 0.1f;
     public float maxPointInterval = 0.05f;
     private float pointAddTimer = 0f;
-
+    public Stage5 stage5;
     private LineRenderer lineRenderer;
     private EdgeCollider2D edgeCollider;
     private List<Vector3> points = new List<Vector3>();
@@ -51,11 +51,19 @@ public class Stage5_LineDraw : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (stage5.prograssbar.fillAmount == 0)
+        {
+            isFinished = true;
+            lineRenderer.positionCount = 0;
+            edgeCollider.points = new Vector2[0];
+            edgeCollider.enabled = false;
+            points.Clear();
+        }
+        if (Input.GetMouseButtonDown(0) && !isFinished)
         {
             StartDrawing(GetWorldPoint());
         }
-        else if (Input.GetMouseButton(0) && isDragging)
+        else if (Input.GetMouseButton(0) && isDragging && !isFinished)
         {
             pointAddTimer += Time.deltaTime;
 
@@ -77,6 +85,7 @@ public class Stage5_LineDraw : MonoBehaviour
 
     void StartDrawing(Vector3 firstPoint)
     {
+        lineCount = 0;
         isDragging = true;
         pointAddTimer = 0f;
         points.Clear();
@@ -108,7 +117,7 @@ public class Stage5_LineDraw : MonoBehaviour
     void EndDrawing()
     {
         isDragging = false;
-        isFinished = true;
+        
 
         if (points.Count >= 2)
         {

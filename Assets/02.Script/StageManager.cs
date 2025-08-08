@@ -61,11 +61,8 @@ public class StageManager : MonoBehaviour
 
     protected virtual void OnPlay()
     {
-        
         if (isStagePlaying == false)
         {
-            // ScoreStage 비활성화 및 다음 stage 활성화
-
             scoreStage.SetActive(false);
             Stages[curStage].SetActive(false);
             Stages[curStage].SetActive(true);
@@ -75,16 +72,24 @@ public class StageManager : MonoBehaviour
         {
             if (isStagenext == true)
             {
-                Stages[curStage].SetActive(false);
                 scoreStage.SetActive(true);
+                Stages[curStage].SetActive(false);
 
+                // 마지막 스테이지였는지 확인 후 StageLevel 증가
+                if (curStage == Stages.Length - 1)
+                {
+                    StageLevel++;
+                }
+
+                // 다음 스테이지로 이동
                 curStage = (curStage + 1) % Stages.Length;
 
                 isStagenext = false;
+                isStagePlaying = false; // 다음 스테이지 시작 준비
             }
         }
-        
     }
+
 
     protected virtual void OnEnd()
     {

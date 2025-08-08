@@ -7,18 +7,26 @@ public class Stage6 : StageBase
     public Stage6_Clear Stage6_Clear;
     private int touchCount = 0;
     private bool isfinish = false;
+    public GameObject enemyMush_StartPos;
     public int maxTouches = 15;
     public GameObject enemyMush;
     private Animator anim;
     private Animator enemyMushAnim;
     protected override void OnEnable()
     {
+        maxPlayTime = 5f;  // 최대 시간
+        minPlayTime = 3f;  // 최소 시간
         isfinish = false;
         finishTime = 0.2f;
         touchCount = 0;
         maxTouches = 15;
         playTime = 5f;
         endingTime = 2f;
+        enemyMush.transform.position = enemyMush_StartPos.transform.position;
+
+        player.transform.localScale = Vector3.one;
+        enemyMush.transform.localScale = Vector3.one;
+
         enemyMushAnim = enemyMush.GetComponent<Animator>();
         anim = player.GetComponent<Animator>();
         base.OnEnable();

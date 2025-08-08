@@ -14,7 +14,10 @@ public class Stage3 : StageBase
 
     protected override void OnEnable()
     {
+        maxPlayTime = 3f;  // 최대 시간
+        minPlayTime = 1.5f;  // 최소 시간
         base.OnEnable();
+
         Stage3_Clear.GameReset();
         isDragging = false;
         point = 1;

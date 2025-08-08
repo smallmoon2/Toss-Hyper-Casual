@@ -14,12 +14,16 @@ public abstract class StageBase : MonoBehaviour
     public Image prograssbar;
 
     protected float finishTime = 0f;
-    protected int level;
+    public int level;
     protected float playTime = 5f;
+    protected float balance = 0f;
     protected float endingTime = 2f;
     public bool isClear = false;
     protected bool timeclear = false;
     protected bool isFinshed = false;
+
+    protected float maxPlayTime = 5f;  // 최대 시간
+    protected float minPlayTime = 3f;  // 최소 시간
 
     protected Vector3 startPosition;
     protected Vector3 endPosition;
@@ -31,8 +35,11 @@ public abstract class StageBase : MonoBehaviour
         clearAction.SetActive(false);
         failAction.SetActive(false);
         isClear = false;
+
         level = stageManager.StageLevel;
-        playTime -= 0.7f * level;
+
+        balance = (maxPlayTime - minPlayTime) / 3f; // 5레벨 → 4단계 변화
+        playTime = maxPlayTime - (level - 1) * balance;
 
         startPosition = startPos.transform.position;
         endPosition = endPos.transform.position;
@@ -53,7 +60,6 @@ public abstract class StageBase : MonoBehaviour
 
         prograssbar.fillAmount = 0f;
 
-
         if (timeclear)
         {
             MissionClear();
@@ -62,40 +68,48 @@ public abstract class StageBase : MonoBehaviour
         {
             StartCoroutine(FailEnding());
         }
-
     }
 
     protected virtual void MissionClear()
     {
+        if (isFinshed) return;  //  중복 방지
+        isFinshed = true;
 
         StopAllCoroutines();
-        
-        //enabled = false;
         StartCoroutine(ClearEnding());
     }
 
     protected virtual IEnumerator ClearEnding()
     {
         isClear = true;
-        stageManager.scoreNum = stageManager.scoreNum + 100;
+        stageManager.scoreNum += 100;
         prograssbar.fillAmount = 1f;
+
         yield return new WaitForSeconds(finishTime);
         clearAction.SetActive(true);
+        Setreset();
+
         yield return new WaitForSeconds(endingTime);
         stageManager.isStagenext = true;
     }
 
     protected virtual IEnumerator FailEnding()
     {
+        if (isFinshed) yield break;  //  중복 방지
+        isFinshed = true;
 
         prograssbar.fillAmount = 1f;
         yield return new WaitForSeconds(finishTime);
         failAction.SetActive(true);
         stageManager.Life--;
+        Setreset();
+
         yield return new WaitForSeconds(endingTime);
-        
         stageManager.isStagenext = true;
     }
 
-    
+    protected virtual void Setreset()
+    {
+        // 필요한 리셋 처리 구현 가능
+    }
 }
