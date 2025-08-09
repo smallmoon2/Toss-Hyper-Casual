@@ -119,6 +119,20 @@ public class Stage8 : StageBase
         }
     }
 
+    protected override IEnumerator ClearEnding()
+    {
+        isClear = true;
+        stageManager.scoreNum += 100;
+        prograssbar.fillAmount = 1f;
+
+        yield return new WaitForSeconds(0);
+        clearAction.SetActive(true);
+        Setreset();
+
+        yield return new WaitForSeconds(endingTime);
+        stageManager.isStagenext = true;
+    }
+
     private void CheckFallOver()
     {
         if (bodyRb == null) return;
@@ -128,6 +142,8 @@ public class Stage8 : StageBase
         if ((zRotation < -45f || zRotation > 45f) && !stage8Next)
         {
             StartCoroutine(FailEnding());
+            SoundManager.Instance.Play("FowardDown");
+
             maskController.ActivateMaskChild(3);
             Debug.Log(zRotation);
             stage8Next = true;

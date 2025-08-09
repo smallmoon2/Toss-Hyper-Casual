@@ -33,7 +33,7 @@ public class Stage2 : StageBase
         if (lineDrawer.isGoalReached && !stage2Next )
         {
 
-            StartCoroutine(ClearEnding());
+            MissionClear();
             stage2Next = true;
         }
     }

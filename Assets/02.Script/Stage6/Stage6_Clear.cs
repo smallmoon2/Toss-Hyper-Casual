@@ -24,9 +24,9 @@ public class Stage6_Clear : StageClearBase
     protected override IEnumerator Fail()
     {
         animator.SetBool("IsRun", false);
-
+        SoundManager.Instance.Stop();
         ActivateMaskChildren(blueObject, 1);
- 
+        SoundManager.Instance.Play("Fail_1");
 
 
 

@@ -83,6 +83,7 @@ public class LineDrawBlocker2D : MonoBehaviour
 
     void StartDrawing(Vector3 firstPoint)
     {
+        SoundManager.Instance.PlayLoop("PenDrawing");
         isDragging = true;
         isGoalReached = false;
         pointAddTimer = 0f;
@@ -114,6 +115,7 @@ public class LineDrawBlocker2D : MonoBehaviour
 
     void EndDrawing()
     {
+        SoundManager.Instance.Stop();
         isDragging = false;
         isFinished = true;
 

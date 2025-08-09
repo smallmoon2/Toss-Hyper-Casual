@@ -19,7 +19,9 @@ public class Stage1 : StageBase
         playTime = 5f;
         endingTime = 2f;
         base.OnEnable();
+        SoundManager.Instance.Play("Subway_Open");
         door.OpenDoor();
+
         anim = player.GetComponent<Animator>();
     }
 
@@ -57,6 +59,7 @@ public class Stage1 : StageBase
         if (anim != null)
         {
             anim.SetBool("IsRun", true);
+            SoundManager.Instance.PlayLoop("Walk");
         }
 
         while (elapsed < duration)
@@ -82,8 +85,15 @@ public class Stage1 : StageBase
     {
         if (anim != null)
         {
+            SoundManager.Instance.Stop();
             anim.SetBool("IsRun", false);
         }
+
+        if (anim != null)
+        {
+            anim.SetTrigger("Isboarding");
+        }
+        SoundManager.Instance.Play("Subway_Open");
         door.CloseDoor();           // 먼저 문 닫기
         base.MissionClear();        // 기본 미션 클리어 처리 실행
     }
@@ -92,6 +102,7 @@ public class Stage1 : StageBase
  
         // 먼저 문 닫기
         yield return base.UpdateProgressBar();
+        SoundManager.Instance.Play("Subway_Open");
         door.CloseDoor();
         if (anim != null)
         {
@@ -105,6 +116,7 @@ public class Stage1 : StageBase
 
         prograssbar.fillAmount = 1f;
         anim.SetBool("IsRun", false);
+        SoundManager.Instance.Stop();
         yield return new WaitForSeconds(finishTime);
         failAction.SetActive(true);
         stageManager.Life--;

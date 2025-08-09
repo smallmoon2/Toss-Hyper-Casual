@@ -16,6 +16,8 @@ public class Stage1_Clear : MonoBehaviour
     }
     void OnEnable()
     {
+
+        SoundManager.Instance.Play("Stage1_Clear");
         hasStartedMoving = false;
         subway.transform.position = startSubwayPos;
         if (subway != null && !hasStartedMoving)

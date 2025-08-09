@@ -16,6 +16,7 @@ public class Stage4_Clear : StageClearBase
 
     protected override IEnumerator Clear()
     {
+        SoundManager.Instance.Play("Clear_2_1");
         animator.SetTrigger("IsWin");
         ActivateMaskChildren(blueObject, 2);
         yield return null;

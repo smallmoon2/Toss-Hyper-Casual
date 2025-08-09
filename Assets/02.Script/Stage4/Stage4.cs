@@ -27,6 +27,8 @@ public class Stage4 : StageBase
     {
         if (Stage4_Player.isCrash && !stage4Next)
         {
+            SoundManager.Instance.Play("Hit");
+
             StartCoroutine(FailEnding());
             stage4Next = true;
 

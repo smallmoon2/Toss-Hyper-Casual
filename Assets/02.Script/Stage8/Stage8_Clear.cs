@@ -16,6 +16,7 @@ public class Stage8_Clear : StageClearBase
 
     protected override IEnumerator Clear()
     {
+        SoundManager.Instance.Play("Clear_2_2");
         anim.SetTrigger("IsDumbbell"); // 
         yield return null;
     }

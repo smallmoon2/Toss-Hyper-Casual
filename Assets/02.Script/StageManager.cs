@@ -13,11 +13,13 @@ public class StageManager : MonoBehaviour
     public int Life = 3;
     public int scoreNum;
 
+    public int timbonus;
     public bool isStagePlaying = false;
     public bool isStagenext = false;
     void Start()
     {
         scoreNum = 0;
+        timbonus = 0;
         StageLevel = 1;
         currentState = StageState.Read;
     }
@@ -50,6 +52,7 @@ public class StageManager : MonoBehaviour
     {
         if (Life == 0)
         {
+            Debug.Log(Life);
             currentState = StageState.End;
         }
         else
@@ -76,7 +79,7 @@ public class StageManager : MonoBehaviour
                 Stages[curStage].SetActive(false);
 
                 // 마지막 스테이지였는지 확인 후 StageLevel 증가
-                if (curStage == Stages.Length - 1)
+                if (curStage == Stages.Length - 1 && StageLevel < 4)
                 {
                     StageLevel++;
                 }
@@ -85,7 +88,7 @@ public class StageManager : MonoBehaviour
                 curStage = (curStage + 1) % Stages.Length;
 
                 isStagenext = false;
-                isStagePlaying = false; // 다음 스테이지 시작 준비
+
             }
         }
     }

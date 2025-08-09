@@ -69,6 +69,7 @@ public class Stage7 : StageBase
         lastTouchTime = now;
 
         // 걷기 애니메이션 Bool
+        SoundManager.Instance.PlayLoop("Water_Walk");
         anim.SetBool("IsWalkB", true);
 
         // 이전 코루틴 중지 후 새로 시작
@@ -88,6 +89,7 @@ public class Stage7 : StageBase
     private IEnumerator WalkBoolResetTimer()
     {
         yield return new WaitForSeconds(walkDuration);
+        SoundManager.Instance.Stop();
         anim.SetBool("IsWalkB", false);
     }
 
@@ -114,8 +116,20 @@ public class Stage7 : StageBase
 
     protected override void MissionClear()
     {
+        if (isFinshed) return;
+        isFinshed = true;
+
+        float remainingRatio = Mathf.Clamp01(prograssbar.fillAmount);
+        stageManager.timbonus = Mathf.RoundToInt(remainingRatio * 30f);
+
+        SoundManager.Instance.Stop();
+        SoundManager.Instance.Play("Clear_1_2");
+
         anim.SetTrigger("IsWin");
-        base.MissionClear();
+        maskController.ActivateMaskChild(2);
+
+        StopAllCoroutines();
+        StartCoroutine(ClearEnding());
     }
 
     protected override IEnumerator UpdateProgressBar()
@@ -125,16 +139,20 @@ public class Stage7 : StageBase
 
     }
 
+
     protected override IEnumerator FailEnding()
     {
+
+        if (isFinshed) yield break;  //  중복 방지
+        isFinshed = true;
 
         prograssbar.fillAmount = 1f;
         yield return new WaitForSeconds(finishTime);
         failAction.SetActive(true);
         stageManager.Life--;
+        Setreset();
+        stageManager.timbonus = 0;
         yield return new WaitForSeconds(endingTime);
-
-        Debug.Log("오버라이딩");
         anim.SetBool("IsSliding", false);
         stageManager.isStagenext = true;
     }

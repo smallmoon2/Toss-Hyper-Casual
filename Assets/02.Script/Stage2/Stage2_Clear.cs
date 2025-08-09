@@ -23,7 +23,7 @@ public class Stage2_Clear : StageClearBase
 
         Animator anim = targetObject.GetComponent<Animator>();
         if (anim) anim.SetBool("IsRun", true);
-
+        SoundManager.Instance.PlayLoop("Walk");
         float elapsed = 0f;
         while (elapsed < moveDuration)
         {
@@ -34,6 +34,9 @@ public class Stage2_Clear : StageClearBase
         }
 
         targetObject.position = endPos.position;
+        SoundManager.Instance.Stop();
+
+        SoundManager.Instance.Play("Clear_2_2");
         if (anim) anim.SetTrigger("IsWin");
     }
 

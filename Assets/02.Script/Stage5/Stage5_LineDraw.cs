@@ -85,6 +85,10 @@ public class Stage5_LineDraw : MonoBehaviour
 
     void StartDrawing(Vector3 firstPoint)
     {
+
+        SoundManager.Instance.PlayLoop("PenDrawing");
+
+
         lineCount = 0;
         isDragging = true;
         pointAddTimer = 0f;
@@ -116,6 +120,7 @@ public class Stage5_LineDraw : MonoBehaviour
 
     void EndDrawing()
     {
+        SoundManager.Instance.Stop();
         isDragging = false;
         
 

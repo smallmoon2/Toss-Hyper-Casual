@@ -13,6 +13,7 @@ public abstract class StageBase : MonoBehaviour
     public GameObject player;
     public Image prograssbar;
 
+
     protected float finishTime = 0f;
     public int level;
     protected float playTime = 5f;
@@ -72,8 +73,12 @@ public abstract class StageBase : MonoBehaviour
 
     protected virtual void MissionClear()
     {
-        if (isFinshed) return;  //  중복 방지
+        if (isFinshed) return;
         isFinshed = true;
+
+        // 남은 시간 비율(0~1) → timbonus(0~30)
+        float remainingRatio = Mathf.Clamp01(prograssbar.fillAmount);
+        stageManager.timbonus = Mathf.RoundToInt(remainingRatio * 30f);
 
         StopAllCoroutines();
         StartCoroutine(ClearEnding());
@@ -82,7 +87,10 @@ public abstract class StageBase : MonoBehaviour
     protected virtual IEnumerator ClearEnding()
     {
         isClear = true;
-        stageManager.scoreNum += 100;
+
+        // 기본 100점 + 시간 보너스
+        stageManager.scoreNum += 100 + stageManager.timbonus;
+
         prograssbar.fillAmount = 1f;
 
         yield return new WaitForSeconds(finishTime);
@@ -103,7 +111,7 @@ public abstract class StageBase : MonoBehaviour
         failAction.SetActive(true);
         stageManager.Life--;
         Setreset();
-
+        stageManager.timbonus = 0;
         yield return new WaitForSeconds(endingTime);
         stageManager.isStagenext = true;
     }

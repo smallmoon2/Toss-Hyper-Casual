@@ -23,6 +23,8 @@ public class Stage3_Clear : StageClearBase
         yield return StartCoroutine(FamilyMove());
         ActivateMaskChildren(MomObject,2);
         ActivateMaskChildren(BabyObject,2);
+
+        SoundManager.Instance.Play("Clear_1_2");
         // 이후 Clear 전용 로직 추가 가능
     }
 
@@ -33,11 +35,14 @@ public class Stage3_Clear : StageClearBase
         ActivateMaskChildren(MomObject, 1);
         ActivateMaskChildren(BabyObject, 1);
 
+        SoundManager.Instance.Play("Fail_1");
+
         // 이후 Fail 전용 로직 추가 가능
     }
 
     private IEnumerator FamilyMove()
     {
+        SoundManager.Instance.PlayLoop("Walk");
         if (MomObject != null) MomObject.position = StartPos.position;
         if (BabyObject != null)
             BabyObject.position = StartPos.position + new Vector3(-1.55f, -0.6f, 0f);
@@ -74,6 +79,7 @@ public class Stage3_Clear : StageClearBase
             BabyObject.position = EndPos.position + new Vector3(-1.55f, -0.6f, 0f);
 
         //// 애니메이션 종료
+        SoundManager.Instance.Stop();
         if (momAnim != null) momAnim.SetBool("IsRun", false);
         if (babyAnim != null) babyAnim.SetBool("IsRun", false);
     }

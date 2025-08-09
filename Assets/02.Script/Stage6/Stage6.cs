@@ -14,8 +14,9 @@ public class Stage6 : StageBase
     private Animator enemyMushAnim;
     protected override void OnEnable()
     {
-        maxPlayTime = 5f;  // 최대 시간
-        minPlayTime = 3f;  // 최소 시간
+        maxPlayTime = 6f;  // 최대 시간
+        minPlayTime = 4f;  // 최소 시간
+        
         isfinish = false;
         finishTime = 0.2f;
         touchCount = 0;
@@ -68,10 +69,11 @@ public class Stage6 : StageBase
 
         if (anim != null)
         {
+            SoundManager.Instance.PlayLoop("Walk");
             anim.SetBool("IsRun", true);
         }
 
-        while (elapsed < duration)
+        while (elapsed < duration && (!isfinish))
         {
             elapsed += Time.deltaTime;
             float t = Mathf.Clamp01(elapsed / duration);
@@ -87,6 +89,10 @@ public class Stage6 : StageBase
             Vector3.Distance(targetPos, endPosition) < 0.01f &&
             Vector3.Distance(player.transform.localScale, endPos.transform.localScale) < 0.01f)
         {
+            Vector3 pos = player.transform.position;
+            pos.z -= 1f;
+            player.transform.position = pos;
+            SoundManager.Instance.Stop();
             MissionClear();
         }
     }
@@ -95,7 +101,10 @@ public class Stage6 : StageBase
     {
         Vector3 startPos = enemyMush.transform.position;
         Vector3 startScale = enemyMush.transform.localScale;
+
         Vector3 endPosEnemy = endPos.transform.position;
+        endPosEnemy.z -= 0.002f; // 
+
         Vector3 endScale = endPos.transform.localScale;
 
         float elapsed = 0f;
@@ -104,6 +113,7 @@ public class Stage6 : StageBase
         {
             enemyMushAnim.SetBool("IsRun", true);
         }
+
         while (elapsed < playTime)
         {
             elapsed += Time.deltaTime;
@@ -117,6 +127,7 @@ public class Stage6 : StageBase
         }
 
         // 보정
+        endPosEnemy.z -= 1.1f;
         enemyMush.transform.position = endPosEnemy;
         enemyMush.transform.localScale = endScale;
         isfinish = true;
@@ -125,13 +136,15 @@ public class Stage6 : StageBase
         {
             enemyMushAnim.SetTrigger("IsWin");
         }
-
     }
+
 
     protected override void MissionClear()
     {
         if (anim != null)
         {
+            SoundManager.Instance.Play("Clear_2_2");
+
             anim.SetBool("IsRun", false);
         }
 

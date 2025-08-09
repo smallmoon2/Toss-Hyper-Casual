@@ -22,6 +22,8 @@ public class Stage5 : StageBase
 
         if (lineDrawer.lineCount >= 12 && !stage2Next)
         {
+            SoundManager.Instance.Play("Clear1_1");
+
             lineDrawer.isFinished = true;
             Debug.Log("성공 처리");
             MissionClear();

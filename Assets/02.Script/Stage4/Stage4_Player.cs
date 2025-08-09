@@ -7,7 +7,7 @@ public class Stage4_Player : MonoBehaviour
     private Animator anim;
     public float surviveTime = 5f;
 
-    private float jumpDelay = 1.1f;
+    private float jumpDelay = 1f;
     private bool isGround = false;
     private bool canJump = true; // 점프 쿨타임 여부
     public bool isCrash = false;
@@ -30,6 +30,7 @@ public class Stage4_Player : MonoBehaviour
             canJump = false;
 
             // 애니메이션에 IsJump 활성화
+            SoundManager.Instance.Play("Jump");
             anim.SetBool("IsJump", true);
 
             StartCoroutine(JumpCooldown());
