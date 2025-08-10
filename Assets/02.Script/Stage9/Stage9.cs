@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class Stage9 : StageBase
@@ -8,7 +9,9 @@ public class Stage9 : StageBase
     public float num1 = 0f;
     public float num2 = 0f;
     public GameObject Baseball;
-    
+
+    public GameObject grove;
+
     private bool stage9Next;
     private Vector3 lastMousePos;
     private bool isDragging = false;
@@ -22,10 +25,20 @@ public class Stage9 : StageBase
         minPlayTime = 1.5f;  // 弥家 矫埃
         playTime = 4f;
         finishTime = 0.2f;
+        stage9Next = false;
         base.OnEnable();
         Stage9_Clear.GameReset();
         currentZ = bone.localEulerAngles.z;
         Baseball.SetActive(true);
+
+        if (baseBall.babyTurn)
+        {
+            grove.SetActive(true);
+        }
+        else
+        {
+            grove.SetActive(false);
+        }
     }
 
     void Update()
@@ -35,7 +48,7 @@ public class Stage9 : StageBase
         if (baseBall.isClear && !stage9Next)
         {
             Debug.Log("己傍 贸府");
-            StartCoroutine(ClearEnding());
+            MissionClear();
             stage9Next = true;
         }
     }
@@ -71,3 +84,4 @@ public class Stage9 : StageBase
     }
 
 }
+

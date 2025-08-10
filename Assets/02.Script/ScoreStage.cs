@@ -2,26 +2,41 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class ScoreStage : MonoBehaviour
 {
     public StageManager stageManager;
     private int level;
     private float prevScore;
-    private float playTime = 3.5f;
+    private float playTime = 2.3f;
     public GameObject[] lifeIcon;
 
+    public GameObject[] Dancer;
+
     public TMP_Text textCount;
+
+    public RevealEffect_Right[] Reveal;
+
+    public RevealEffect[] Reveal2;
 
     public TMP_Text bonus;
 
     public GameObject timeBonus;
     public GameObject GameOver;
+
+    public Button reStartButton;
+
+    public bool isReSet;
+
     private int prevLife; // 이전 Life 저장용 변수
 
     void OnEnable()
     {
-        playTime = 4;
+
+        reStartButton.onClick.AddListener(ReStart);
+
+        playTime = 3.2f;
         level = stageManager.StageLevel;
         playTime = playTime - (0.2f * (float)level);
 
@@ -41,12 +56,14 @@ public class ScoreStage : MonoBehaviour
         // Life 변경 감지
         if (stageManager.Life != prevLife)
         {
-            SoundManager.Instance.Play("Pen");
+            
 
             // 배열 범위 안전 체크
             if (stageManager.Life >= 0 && stageManager.Life < lifeIcon.Length)
             {
+                SoundManager.Instance.Play("Pen");
                 lifeIcon[stageManager.Life].SetActive(true);
+                Dancer[stageManager.Life].SetActive(false);
             }
 
 
@@ -100,4 +117,37 @@ public class ScoreStage : MonoBehaviour
 
         prevScore = fTargetNum;
     }
+
+
+    private void ReStart()
+    {
+        isReSet = false;
+        stageManager.Life = 3;
+        stageManager.StageLevel = 1;
+        stageManager.scoreNum = 0;
+        stageManager.timbonus = 0;
+        stageManager.curStage = 0;
+        stageManager.currentState = StageState.Read;
+        GameOver.SetActive(false);
+        textCount.text = "0";
+        prevScore = 0;
+        prevLife = 3;
+        for (int i = 0; i < 3; i++)
+        {
+            lifeIcon[i].SetActive(false);
+            Dancer[i].SetActive(true);
+        }
+
+
+        for (int i = 0; i < 3; i++)
+        {
+            Reveal[i].isStart = false;
+        }
+
+        for (int i = 0; i < 3; i++)
+        {
+            Reveal2[i].isStart = false;
+        }
+    }
+
 }

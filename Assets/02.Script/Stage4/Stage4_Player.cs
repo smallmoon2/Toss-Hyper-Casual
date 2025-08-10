@@ -26,7 +26,7 @@ public class Stage4_Player : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0) && isGround && canJump)
         {
-            playerRb.AddForce(Vector2.up * 4f, ForceMode2D.Impulse);
+            playerRb.AddForce(Vector2.up * 3.2f, ForceMode2D.Impulse);
             canJump = false;
 
             // 애니메이션에 IsJump 활성화

@@ -98,7 +98,12 @@ public abstract class StageBase : MonoBehaviour
         Setreset();
 
         yield return new WaitForSeconds(endingTime);
+        clearAction.SetActive(false);
+        failAction.SetActive(false);
+
         stageManager.isStagenext = true;
+
+
     }
 
     protected virtual IEnumerator FailEnding()
@@ -113,6 +118,9 @@ public abstract class StageBase : MonoBehaviour
         Setreset();
         stageManager.timbonus = 0;
         yield return new WaitForSeconds(endingTime);
+        clearAction.SetActive(false);
+        failAction.SetActive(false);
+
         stageManager.isStagenext = true;
     }
 

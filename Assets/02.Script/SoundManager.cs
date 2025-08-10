@@ -1,16 +1,16 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-
 public class SoundManager : MonoBehaviour
 {
     public static SoundManager Instance;
 
     public List<Sound> sounds;
-    private string currentLoopSound = null; // 현재 루프 사운드 이름 저장
+    private string currentLoopSound = null;
 
     private Dictionary<string, Sound> soundDict;
     private AudioSource audioSource;
+    private AudioSource bgmSource; 
 
     void Awake()
     {
@@ -20,34 +20,34 @@ public class SoundManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         audioSource = gameObject.AddComponent<AudioSource>();
-        soundDict = new Dictionary<string, Sound>();
+        bgmSource = gameObject.AddComponent<AudioSource>(); 
+        bgmSource.loop = true;
 
+        soundDict = new Dictionary<string, Sound>();
         foreach (Sound s in sounds)
         {
             if (!soundDict.ContainsKey(s.name))
-            {
                 soundDict.Add(s.name, s);
-            }
         }
     }
+
+    private void Start()
+    {
+        SoundManager.Instance.PlayBGM("BlueMushBGM");
+    }
+
 
     public void Play(string soundName)
     {
         if (soundDict.TryGetValue(soundName, out Sound sound))
-        {
             audioSource.PlayOneShot(sound.clip, sound.volume);
-        }
         else
-        {
             Debug.LogWarning($"Sound '{soundName}' not found!");
-        }
     }
 
     public void PlayLoop(string soundName)
     {
-        // 이미 같은 사운드가 루프로 재생 중이면 중복 실행 안 함
-        if (audioSource.isPlaying && soundName == currentLoopSound)
-            return;
+        if (audioSource.isPlaying && soundName == currentLoopSound) return;
 
         if (soundDict.TryGetValue(soundName, out Sound sound))
         {
@@ -58,15 +58,30 @@ public class SoundManager : MonoBehaviour
             audioSource.Play();
         }
         else
-        {
             Debug.LogWarning($"Loop sound '{soundName}' not found!");
-        }
     }
-
 
     public void Stop()
     {
         audioSource.Stop();
-        currentLoopSound = null; // 정지 시 상태 초기화
+        currentLoopSound = null;
+    }
+
+
+    public void PlayBGM(string soundName)
+    {
+        if (soundDict.TryGetValue(soundName, out Sound sound))
+        {
+            bgmSource.clip = sound.clip;
+            bgmSource.volume = sound.volume;
+            bgmSource.Play();
+        }
+        else
+            Debug.LogWarning($"BGM '{soundName}' not found!");
+    }
+
+    public void SetBGMVolume(float volume) // 0 ~ 1
+    {
+        bgmSource.volume = Mathf.Clamp01(volume);
     }
 }

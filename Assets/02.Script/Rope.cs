@@ -4,7 +4,7 @@ public class Rope : MonoBehaviour
 {
     public Stage4 Stage4;
     private float rotationSpeed = 180f; // 초당 회전 속도
-    private float MaxrotationSpeed = 330f;
+    private float MaxrotationSpeed = 290f;
     private float MinrotationSpeed = 180f;
     public Transform pivot; // 회전 중심이 되는 Transform
 

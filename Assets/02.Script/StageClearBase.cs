@@ -8,7 +8,7 @@ public abstract class StageClearBase : MonoBehaviour
 
     protected virtual void OnEnable()
     {
-
+        Debug.Log("클리어 베이스생성됨");
         if (StageBase.isClear)
             StartCoroutine(HandleClear());
         else
@@ -18,11 +18,13 @@ public abstract class StageClearBase : MonoBehaviour
     private IEnumerator HandleClear()
     {
         yield return StartCoroutine(Clear());
+
     }
 
     private IEnumerator HandleFail()
     {
         yield return StartCoroutine(Fail());
+
     }
 
     protected abstract IEnumerator Clear();

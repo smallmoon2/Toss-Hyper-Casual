@@ -5,7 +5,7 @@ public class Stage8 : StageBase
 {
     public Rigidbody2D bodyRb;
     public float torqueForce = 10f;
-
+    public GameObject wobble;
     private float maxSize = 1.0f;
     private float minSize = 0.5f;
 
@@ -16,6 +16,9 @@ public class Stage8 : StageBase
     public MaskController maskController;
     private Vector3 initialCylinderPosition;
     private Quaternion initialCylinderRotation;
+
+    // 흔들림 반복 감지용 (히스테리시스: 20° 진입 / 10° 이탈)
+    private bool isShaking = false;
 
     private void Awake()
     {
@@ -39,6 +42,8 @@ public class Stage8 : StageBase
 
         stage8Next = true;
 
+        SoundManager.Instance.Play("Wobble");
+        StartCoroutine(ShowWobbleForOneSecond());
         if (Startcylinder != null)
         {
             Startcylinder.transform.position = initialCylinderPosition;
@@ -47,7 +52,6 @@ public class Stage8 : StageBase
 
         if (bodyRb != null)
         {
-
             int clampedLevel = Mathf.Clamp(stageManager.StageLevel, 1, 4);
             float t = (clampedLevel - 1f) / 3f;  // 0 ~ 1
             float size = Mathf.Lerp(maxSize, minSize, t);
@@ -61,9 +65,9 @@ public class Stage8 : StageBase
             bodyRb.AddTorque(1 * direction, ForceMode2D.Force);
         }
 
+        isShaking = false; // 초기화
         StartCoroutine(AllowFallOverCheckNextFrame());
     }
-
 
     private IEnumerator AllowFallOverCheckNextFrame()
     {
@@ -73,8 +77,6 @@ public class Stage8 : StageBase
 
     private void Update()
     {
-        Debug.Log(bodyRb.rotation);
-
         if (Input.GetMouseButton(0) && !stage8Next)
         {
             Vector3 touchPos = Input.mousePosition;
@@ -115,7 +117,7 @@ public class Stage8 : StageBase
         }
         else if (holdingRight)
         {
-            bodyRb.AddTorque(-torqueForce, ForceMode2D.Force); 
+            bodyRb.AddTorque(-torqueForce, ForceMode2D.Force);
         }
     }
 
@@ -135,9 +137,27 @@ public class Stage8 : StageBase
 
     private void CheckFallOver()
     {
-        if (bodyRb == null) return;
-
+ 
         float zRotation = bodyRb.rotation;
+
+        // 흔들림 반복 감지: 20° 이상 들어가면 wobble 1초 표시\
+        if (isClear == false)
+        {
+            if (!isShaking && Mathf.Abs(zRotation) >= 8f)
+            {
+
+                SoundManager.Instance.Play("Wobble");
+
+                isShaking = true;
+                StartCoroutine(ShowWobbleForOneSecond());
+            }
+            else if (isShaking && Mathf.Abs(zRotation) < 1f)
+            {
+                isShaking = false;
+            }
+
+            // 넘어짐 판정
+        }
 
         if ((zRotation < -45f || zRotation > 45f) && !stage8Next)
         {
@@ -148,5 +168,16 @@ public class Stage8 : StageBase
             Debug.Log(zRotation);
             stage8Next = true;
         }
+
     }
+    private IEnumerator ShowWobbleForOneSecond()
+    {
+        if (wobble != null)
+        {
+            wobble.SetActive(true);
+            yield return new WaitForSeconds(1f);
+            wobble.SetActive(false);
+        }
+    }
+
 }

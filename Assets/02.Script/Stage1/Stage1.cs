@@ -9,7 +9,7 @@ public class Stage1 : StageBase
     public int maxTouches = 10;
     private Animator anim;
 
-
+    private bool first;
     
     protected override void OnEnable()
     {
@@ -18,7 +18,26 @@ public class Stage1 : StageBase
         maxTouches = 10;
         playTime = 5f;
         endingTime = 2f;
-        base.OnEnable();
+        isFinshed = false;
+        timeclear = false;
+        clearAction.SetActive(false);
+        failAction.SetActive(false);
+        isClear = false;
+
+        level = stageManager.StageLevel;
+
+        balance = (maxPlayTime - minPlayTime) / 3f; // 5레벨 → 4단계 변화
+        playTime = maxPlayTime - (level - 1) * balance;
+
+        startPosition = startPos.transform.position;
+        endPosition = endPos.transform.position;
+        player.transform.position = startPosition;
+        if(first)
+        {
+            StartCoroutine(UpdateProgressBar());
+        }
+
+
         SoundManager.Instance.Play("Subway_Open");
         door.OpenDoor();
 
@@ -31,6 +50,14 @@ public class Stage1 : StageBase
         if (Input.GetMouseButtonDown(0) ||
             (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began))
         {
+            if (!first)
+            {
+                SoundManager.Instance.SetBGMVolume(0.01f);
+
+                StartCoroutine(UpdateProgressBar());
+                first = true;
+            }
+            
             if (!isFinshed)
             {
                 HandleTouch();
@@ -83,6 +110,9 @@ public class Stage1 : StageBase
 
     protected override void MissionClear()
     {
+        if (isFinshed) return;
+        isFinshed = true;
+
         if (anim != null)
         {
             SoundManager.Instance.Stop();
@@ -95,7 +125,13 @@ public class Stage1 : StageBase
         }
         SoundManager.Instance.Play("Subway_Open");
         door.CloseDoor();           // 먼저 문 닫기
-        base.MissionClear();        // 기본 미션 클리어 처리 실행
+
+        float remainingRatio = Mathf.Clamp01(prograssbar.fillAmount);
+        stageManager.timbonus = Mathf.RoundToInt(remainingRatio * 30f);
+
+        StopAllCoroutines();
+        StartCoroutine(ClearEnding());
+
     }
     protected override IEnumerator UpdateProgressBar()
     {
@@ -113,6 +149,8 @@ public class Stage1 : StageBase
 
     protected override IEnumerator FailEnding()
     {
+        if (isFinshed) yield break;  //  중복 방지
+        isFinshed = true;
 
         prograssbar.fillAmount = 1f;
         anim.SetBool("IsRun", false);

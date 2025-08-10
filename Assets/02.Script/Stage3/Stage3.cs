@@ -19,9 +19,35 @@ public class Stage3 : StageBase
         base.OnEnable();
 
         Stage3_Clear.GameReset();
+        
+
         isDragging = false;
         point = 1;
         dragStartPos = Vector3.zero;
+
+        if (Stage3_Clear.isOtherVersion)
+        {
+            if (point == 1)
+            {
+                timeclear = false;
+            }
+            else
+            {
+                timeclear = true;
+            }
+        }
+        else
+        {
+            if (point == 1)
+            {
+                timeclear = true;
+            }
+            else
+            {
+                timeclear = false;
+            }
+        }
+
     }
 
     private void Update()
@@ -67,15 +93,34 @@ public class Stage3 : StageBase
                 }
             }
             player.transform.position = chearPos[point].position;
+            SoundManager.Instance.Play("Hit");
+
+
             isDragging = false;
-            if (point == 1)
+
+            if (Stage3_Clear.isOtherVersion)
             {
-                timeclear = false;
+                if (point == 1)
+                {
+                    timeclear = false;
+                }
+                else
+                {
+                    timeclear = true;
+                }
             }
             else
             {
-                timeclear = true;
+                if (point == 1)
+                {
+                    timeclear = true;
+                }
+                else
+                {
+                    timeclear = false;
+                }
             }
+
         }
     }
 

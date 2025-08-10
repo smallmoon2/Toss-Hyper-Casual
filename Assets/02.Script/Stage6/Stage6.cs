@@ -12,11 +12,13 @@ public class Stage6 : StageBase
     public GameObject enemyMush;
     private Animator anim;
     private Animator enemyMushAnim;
+
+    private float startTime;
     protected override void OnEnable()
     {
-        maxPlayTime = 6f;  // 최대 시간
-        minPlayTime = 4f;  // 최소 시간
-        
+        maxPlayTime = 6f;
+        minPlayTime = 4f;
+
         isfinish = false;
         finishTime = 0.2f;
         touchCount = 0;
@@ -32,7 +34,11 @@ public class Stage6 : StageBase
         anim = player.GetComponent<Animator>();
         base.OnEnable();
         Stage6_Clear.GameReset();
-        // 적 버섯 자동 이동 시작
+
+        startTime = Time.time; // 시작 시각 기록
+
+        SoundManager.Instance.Play("Whistle");
+
         StartCoroutine(MoveEnemyToEnd());
     }
 
@@ -41,6 +47,15 @@ public class Stage6 : StageBase
         if (Input.GetMouseButtonDown(0) ||
             (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began))
         {
+            // 시작 후 1초 이내 첫 터치 → FailEnding 호출
+            if (Time.time - startTime <= 1f && !isfinish)
+            {
+                StopAllCoroutines();
+                StartCoroutine(FailEnding());
+                isfinish = true;
+                return; // 다른 처리 막기
+            }
+
             if (!isfinish)
             {
                 HandleTouch();
@@ -99,6 +114,10 @@ public class Stage6 : StageBase
 
     private IEnumerator MoveEnemyToEnd()
     {
+        yield return new WaitForSeconds(0.7f);
+        SoundManager.Instance.Play("Gun");
+        yield return new WaitForSeconds(0.3f);
+        SoundManager.Instance.PlayLoop("Walk");
         Vector3 startPos = enemyMush.transform.position;
         Vector3 startScale = enemyMush.transform.localScale;
 
@@ -114,10 +133,10 @@ public class Stage6 : StageBase
             enemyMushAnim.SetBool("IsRun", true);
         }
 
-        while (elapsed < playTime)
+        while (elapsed < playTime-1f)
         {
             elapsed += Time.deltaTime;
-            float t = Mathf.Clamp01(elapsed / playTime);
+            float t = Mathf.Clamp01(elapsed / (playTime-1f));
             float easedT = t * t * t; // Ease-in
 
             enemyMush.transform.position = Vector3.Lerp(startPos, endPosEnemy, t);

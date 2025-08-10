@@ -58,7 +58,7 @@ public class StarCatch : MonoBehaviour
 
         Debug.Log(sliderUIPosX);
 
-        if (sliderUIPosX >= 44 && sliderUIPosX <= 55)
+        if (sliderUIPosX >= 43 && sliderUIPosX <= 57)
         {
             Debug.Log(" Success!");
             isCatch = isStarCatch.Clear;

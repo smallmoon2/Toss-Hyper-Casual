@@ -10,14 +10,12 @@ public class Stage9_Clear : StageClearBase
     protected override void OnEnable()
     {
 
-
         base.OnEnable();
-
     }
 
     protected override IEnumerator Clear()
     {
-
+        SoundManager.Instance.Play("Clear_2_1");
         ActivateMaskChildren(blueObject, 2);
         ActivateMaskChildren(babyObject, 2);
         yield return null;
@@ -25,8 +23,8 @@ public class Stage9_Clear : StageClearBase
 
     protected override IEnumerator Fail()
     {
-
-
+        SoundManager.Instance.Play("Sad");
+        Debug.Log("울음소라");
         ActivateMaskChildren(blueObject, 1);
         ActivateMaskChildren(babyObject, 3);
 

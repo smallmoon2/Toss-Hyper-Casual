@@ -15,6 +15,8 @@ public class Stage9_BaseBall : MonoBehaviour
     private Quaternion initialRotation;
     private bool isStopped = false;
 
+    public bool babyTurn = true; // true면 Baby, false면 Player가 성공 조건
+
     void Awake()
     {
         // 초기 위치, 회전, 스케일 저장
@@ -72,8 +74,7 @@ public class Stage9_BaseBall : MonoBehaviour
 
     void Update()
     {
-        Debug.Log("레벨");
-        Debug.Log(stage9.level);
+
         if (isStopped) return;
 
         if (transform.localScale.x < maxScale)
@@ -87,9 +88,15 @@ public class Stage9_BaseBall : MonoBehaviour
     {
         Debug.Log("충돌");
 
-        if (collision.collider.CompareTag("Baby"))
+        if (babyTurn && collision.collider.CompareTag("Baby"))
         {
             isClear = true;
+            babyTurn = false; // 다음엔 Player 차례
+        }
+        else if (!babyTurn && collision.collider.CompareTag("Player"))
+        {
+            isClear = true;
+            babyTurn = true; // 다음엔 Baby 차례
         }
 
         isStopped = true;

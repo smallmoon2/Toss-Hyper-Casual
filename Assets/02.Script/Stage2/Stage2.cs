@@ -14,7 +14,7 @@ public class Stage2 : StageBase
         minPlayTime = 2.5f;  // 최소 시간
         finishTime = 0.5f;
         playTime = 20f;
-        endingTime = 2f;
+        endingTime = 2.5f;
         base.OnEnable();
         stage2Next = false;
         anim = failanim.GetComponent<Animator>();

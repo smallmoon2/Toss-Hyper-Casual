@@ -48,9 +48,12 @@ public class Stage2_Clear : StageClearBase
             yield break;
         }
 
+
         targetObject.position = startPos.position;
 
         Animator anim = targetObject.GetComponent<Animator>();
+        SoundManager.Instance.PlayLoop("Walk");
+
         if (anim) anim.SetBool("IsRun", true);
 
         float stopRatio = 0.5f;
@@ -69,6 +72,8 @@ public class Stage2_Clear : StageClearBase
 
         if (anim)
         {
+            SoundManager.Instance.Stop();
+
             anim.SetBool("IsRun", false);
             anim.SetBool("IsFowardDown", true);
         }

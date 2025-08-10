@@ -3,13 +3,24 @@ using UnityEngine;
 
 public class RevealEffect : MonoBehaviour
 {
+
+    public ScoreStage scoreStage;
     public Material revealMaterial;       // 원본 머티리얼 (Inspector에 지정)
     private Material runtimeMaterial;     // 런타임 인스턴스
 
-    public float revealTime = 1f;
+    private float revealTime = 0.6f;
 
-    void Start()
+
+
+    public bool isStart;
+
+    void OnEnable()
     {
+        if (isStart)
+        {
+            Debug.Log("안그림");
+            return;
+        }
         // 머티리얼 복사본 생성
         runtimeMaterial = new Material(revealMaterial);
 
@@ -21,6 +32,8 @@ public class RevealEffect : MonoBehaviour
         }
 
         StartCoroutine(Reveal());
+
+        isStart = true;
     }
 
     IEnumerator Reveal()
@@ -35,5 +48,11 @@ public class RevealEffect : MonoBehaviour
         }
 
         runtimeMaterial.SetFloat("_Cutoff", 1f); // 마지막 값 보장
+    }
+
+    public void ResetStartFlag()
+    {
+        isStart = false;
+
     }
 }
