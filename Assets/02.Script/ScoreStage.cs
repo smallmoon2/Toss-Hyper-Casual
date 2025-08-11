@@ -9,7 +9,7 @@ public class ScoreStage : MonoBehaviour
     public StageManager stageManager;
     private int level;
     private float prevScore;
-    private float playTime = 2.3f;
+    private float playTime = 3.2f;
     public GameObject[] lifeIcon;
 
     public GameObject[] Dancer;
@@ -102,21 +102,23 @@ public class ScoreStage : MonoBehaviour
     {
         float elapsed = 0f;
         float start = prevScore;
+        float duration = 1.5f; // 점수 오르는 시간 고정
+
         SoundManager.Instance.Play("Score_UP");
 
-        while (elapsed < ((playTime - 1.5f) * 0.7f) )
+        while (elapsed < duration)
         {
             elapsed += Time.deltaTime;
-            float percent = Mathf.Clamp01(elapsed / playTime);
+            float percent = Mathf.Clamp01(elapsed / duration);
             float current = Mathf.Lerp(start, fTargetNum, percent);
             textCount.text = current.ToString("F0");
             yield return null;
         }
 
         textCount.text = fTargetNum.ToString("F0");
-
         prevScore = fTargetNum;
     }
+
 
 
     private void ReStart()

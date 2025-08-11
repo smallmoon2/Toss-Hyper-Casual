@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using static StarCatch;
-using static UnityEditor.Experimental.GraphView.GraphView;
+
 
 public class Stage10 : StageBase
 {

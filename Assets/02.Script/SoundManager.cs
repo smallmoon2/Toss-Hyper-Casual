@@ -9,8 +9,11 @@ public class SoundManager : MonoBehaviour
     private string currentLoopSound = null;
 
     private Dictionary<string, Sound> soundDict;
-    private AudioSource audioSource;
-    private AudioSource bgmSource; 
+
+    private AudioSource bgmSource;
+
+    private AudioSource sfxSource;   // 원샷 전용
+    private AudioSource loopSource;  // 루프 전용 (기존 audioSource 대체)
 
     void Awake()
     {
@@ -19,7 +22,6 @@ public class SoundManager : MonoBehaviour
 
         DontDestroyOnLoad(gameObject);
 
-        audioSource = gameObject.AddComponent<AudioSource>();
         bgmSource = gameObject.AddComponent<AudioSource>(); 
         bgmSource.loop = true;
 
@@ -29,6 +31,12 @@ public class SoundManager : MonoBehaviour
             if (!soundDict.ContainsKey(s.name))
                 soundDict.Add(s.name, s);
         }
+        loopSource = gameObject.AddComponent<AudioSource>();
+        loopSource.loop = true;
+
+        sfxSource = gameObject.AddComponent<AudioSource>();
+        sfxSource.loop = false;
+
     }
 
     private void Start()
@@ -40,30 +48,24 @@ public class SoundManager : MonoBehaviour
     public void Play(string soundName)
     {
         if (soundDict.TryGetValue(soundName, out Sound sound))
-            audioSource.PlayOneShot(sound.clip, sound.volume);
-        else
-            Debug.LogWarning($"Sound '{soundName}' not found!");
+            sfxSource.PlayOneShot(sound.clip, sound.volume); // loop 볼륨과 분리
     }
 
     public void PlayLoop(string soundName)
     {
-        if (audioSource.isPlaying && soundName == currentLoopSound) return;
-
+        if (loopSource.isPlaying && soundName == currentLoopSound) return;
         if (soundDict.TryGetValue(soundName, out Sound sound))
         {
             currentLoopSound = soundName;
-            audioSource.clip = sound.clip;
-            audioSource.volume = sound.volume;
-            audioSource.loop = true;
-            audioSource.Play();
+            loopSource.clip = sound.clip;
+            loopSource.volume = sound.volume;
+            loopSource.Play();
         }
-        else
-            Debug.LogWarning($"Loop sound '{soundName}' not found!");
     }
 
     public void Stop()
     {
-        audioSource.Stop();
+        loopSource.Stop();
         currentLoopSound = null;
     }
 

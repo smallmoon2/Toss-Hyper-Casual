@@ -4,7 +4,7 @@ using UnityEngine;
 public class Stage5_Clear : StageClearBase
 {
     public GameObject blueObject;
-    public Animator anim;
+    private Animator anim;
 
     protected override void OnEnable()
     {
@@ -16,15 +16,16 @@ public class Stage5_Clear : StageClearBase
 
     protected override IEnumerator Clear()
     {
-        Debug.Log("¼º°ø");
         yield return null;
+        SoundManager.Instance.Play("Clear_1_1");
+
     }
 
     protected override IEnumerator Fail()
+
     {
+        yield return null;
         anim.SetTrigger("IsShoesDown"); // 
 
-
-        yield return null;
     }
 }

@@ -33,10 +33,8 @@ public class StarCatch : MonoBehaviour
     {
         isMoving = true;
 
-        float randX = 540f;
-        float randWidth = 150f;
-        rangeBox.anchoredPosition = new Vector2(randX, 0);
-        rangeBox.sizeDelta = new Vector2(randWidth, rangeBox.sizeDelta.y);
+
+
 
         // 레벨에 따라 속도 계산 (레벨이 높을수록 빠르게 → duration은 짧게)
         int level = Mathf.Clamp(stage.level, 1, 4); // 1~5 보정
@@ -58,7 +56,7 @@ public class StarCatch : MonoBehaviour
 
         Debug.Log(sliderUIPosX);
 
-        if (sliderUIPosX >= 43 && sliderUIPosX <= 57)
+        if (sliderUIPosX >= 45 && sliderUIPosX <= 57)
         {
             Debug.Log(" Success!");
             isCatch = isStarCatch.Clear;
