@@ -14,6 +14,7 @@ public abstract class StageBase : MonoBehaviour
     public Image prograssbar;
 
 
+    public bool eggStage = false;
     protected float finishTime = 0f;
     public int level;
     protected float playTime = 5f;

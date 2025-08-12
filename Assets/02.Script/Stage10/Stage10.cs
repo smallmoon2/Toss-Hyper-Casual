@@ -19,9 +19,11 @@ public class Stage10 : StageBase
 
         anim.SetBool("IsSnack", true);
 
+
         finishTime = 0.5f;
         playTime = 5f;
         base.OnEnable();
+        eggStage = true;
         stage10Next = false;
 
     }

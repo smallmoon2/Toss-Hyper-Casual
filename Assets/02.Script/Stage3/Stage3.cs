@@ -18,6 +18,7 @@ public class Stage3 : StageBase
         minPlayTime = 1.5f;  // 최소 시간
         base.OnEnable();
 
+        eggStage = true;
         Stage3_Clear.GameReset();
         
 

@@ -40,7 +40,7 @@ public class StarCatch : MonoBehaviour
         int level = Mathf.Clamp(stage.level, 1, 4); // 1~5 보정
         float duration = Mathf.Lerp(1f, 0.5f, (level - 1) / 3f); // 1레벨일 때 1초, 5레벨일 때 0.3초
 
-        LeanTween.value(gameObject, 0f, 100f, duration)
+        LeanTween.value(gameObject, 4f, 96f, duration)
             .setOnUpdate(val => slider.value = val)
             .setLoopPingPong();
     }

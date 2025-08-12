@@ -6,6 +6,8 @@ public class StageManager : MonoBehaviour
 {
     public StageState currentState;
 
+    public static GameObject egg;
+
     public GameObject[] Stages;
     public GameObject scoreStage;
     public int curStage;

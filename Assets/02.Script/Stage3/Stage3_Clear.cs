@@ -18,6 +18,7 @@ public class Stage3_Clear : StageClearBase
     {
 
         base.OnEnable();
+
     }
 
     protected override IEnumerator Clear()
@@ -26,7 +27,6 @@ public class Stage3_Clear : StageClearBase
         yield return StartCoroutine(FamilyMove());
         ActivateMaskChildren(MomObject,2);
         ActivateMaskChildren(BabyObject,2);
-
         SoundManager.Instance.Play("Clear_1_2");
         // 이후 Clear 전용 로직 추가 가능
     }

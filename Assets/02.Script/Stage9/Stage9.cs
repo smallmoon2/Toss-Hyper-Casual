@@ -27,6 +27,8 @@ public class Stage9 : StageBase
         finishTime = 0.2f;
         stage9Next = false;
         base.OnEnable();
+
+        eggStage = true;
         Stage9_Clear.GameReset();
         currentZ = bone.localEulerAngles.z;
         Baseball.SetActive(true);

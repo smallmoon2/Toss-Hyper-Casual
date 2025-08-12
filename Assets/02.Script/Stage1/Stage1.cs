@@ -52,7 +52,7 @@ public class Stage1 : StageBase
         {
             if (!first)
             {
-                SoundManager.Instance.SetBGMVolume(0.01f);
+                SoundManager.Instance.SetBGMVolume(0.02f);
 
                 StartCoroutine(UpdateProgressBar());
                 first = true;

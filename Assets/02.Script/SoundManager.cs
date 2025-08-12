@@ -5,6 +5,8 @@ public class SoundManager : MonoBehaviour
 {
     public static SoundManager Instance;
 
+    public static int HelpCount = 1;
+
     public List<Sound> sounds;
     private string currentLoopSound = null;
 

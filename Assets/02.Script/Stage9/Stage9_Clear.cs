@@ -3,12 +3,17 @@ using UnityEngine;
 
 public class Stage9_Clear : StageClearBase
 {
-
+    public Stage9_BaseBall baseBall;
     public Transform blueObject;
     public Transform babyObject;
 
+    public GameObject Sad;
+    public GameObject Head_Hit;
+
+
     protected override void OnEnable()
     {
+
 
         base.OnEnable();
     }
@@ -23,6 +28,14 @@ public class Stage9_Clear : StageClearBase
 
     protected override IEnumerator Fail()
     {
+        if (baseBall.babyTurn)
+        {
+            Sad.SetActive(true);
+        }
+        else
+        {
+            Head_Hit.SetActive(true);
+        }
         SoundManager.Instance.Play("Sad");
         Debug.Log("울음소라");
         ActivateMaskChildren(blueObject, 1);
@@ -77,6 +90,8 @@ public class Stage9_Clear : StageClearBase
     {
         ActivateMaskChildren(blueObject, 0);
         ActivateMaskChildren(babyObject, 0);
+        Sad.SetActive(false);
+        Head_Hit.SetActive(false);
     }
 
 
