@@ -20,6 +20,7 @@ public class Stage4_Player : MonoBehaviour
     private void OnEnable()
     {
         anim.ResetTrigger("MyTrigger");
+        canJump = true;
         isCrash = false;
     }
     private void Update()
