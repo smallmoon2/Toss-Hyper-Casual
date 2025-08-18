@@ -9,7 +9,7 @@ public class Stage1 : StageBase
     public int maxTouches = 10;
     private Animator anim;
 
-    private bool first;
+    public bool first;
     
     protected override void OnEnable()
     {
@@ -47,23 +47,27 @@ public class Stage1 : StageBase
     private void Update()
     {
 
-        if (Input.GetMouseButtonDown(0) ||
-            (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began))
+        if (!PauseManager.Instance || !PauseManager.Instance.IsPaused)
         {
-            if (!first)
+            if (Input.GetMouseButtonDown(0) ||
+(Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began))
             {
-                SoundManager.Instance.SetBGMVolume(0.02f);
+                if (!first)
+                {
+                    SoundManager.Instance.SetBGMVolume(0.02f);
 
-                StartCoroutine(UpdateProgressBar());
-                first = true;
+                    StartCoroutine(UpdateProgressBar());
+                    first = true;
+                }
+
+                if (!isFinshed)
+                {
+                    HandleTouch();
+                }
+
             }
-            
-            if (!isFinshed)
-            {
-                HandleTouch();
-            }
-            
         }
+
     }
 
     private void HandleTouch()

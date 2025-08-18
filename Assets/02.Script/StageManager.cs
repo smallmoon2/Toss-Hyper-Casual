@@ -1,9 +1,13 @@
+using TMPro;
 using UnityEngine;
 
 public enum StageState { Read, Play, End }
 
 public class StageManager : MonoBehaviour
 {
+    public BestScore bestScore;
+    public TMP_Text BestScore;
+
     public StageState currentState;
 
     public static GameObject egg;
@@ -11,6 +15,7 @@ public class StageManager : MonoBehaviour
     public GameObject[] Stages;
     public GameObject scoreStage;
     public int curStage;
+    
     public int StageLevel;
     public int Life = 3;
     public int scoreNum;
@@ -98,7 +103,8 @@ public class StageManager : MonoBehaviour
 
     protected virtual void OnEnd()
     {
-
+        bestScore.TrySetNewScore(scoreNum);
+        BestScore.text = $"{bestScore.BestScoreNum}";
     }
 
 

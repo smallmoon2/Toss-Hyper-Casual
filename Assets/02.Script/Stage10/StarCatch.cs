@@ -23,18 +23,19 @@ public class StarCatch : MonoBehaviour
 
     void Update()
     {
-        if (isMoving && Input.GetMouseButtonDown(0))
+        if (!PauseManager.Instance || !PauseManager.Instance.IsPaused)
         {
-            StopSlider();
+            if (isMoving && Input.GetMouseButtonDown(0))
+            {
+                StopSlider();
+            }
+
         }
     }
 
     void StartSlider()
     {
         isMoving = true;
-
-
-
 
         // 레벨에 따라 속도 계산 (레벨이 높을수록 빠르게 → duration은 짧게)
         int level = Mathf.Clamp(stage.level, 1, 4); // 1~5 보정

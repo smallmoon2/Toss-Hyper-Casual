@@ -77,26 +77,31 @@ public class Stage8 : StageBase
 
     private void Update()
     {
-        if (Input.GetMouseButton(0) && !stage8Next)
+        if (!PauseManager.Instance || !PauseManager.Instance.IsPaused)
         {
-            Vector3 touchPos = Input.mousePosition;
-            float screenMidX = Screen.width / 2f;
 
-            if (touchPos.x < screenMidX)
+
+            if (Input.GetMouseButton(0) && !stage8Next)
             {
-                holdingLeft = true;
-                holdingRight = false;
+                Vector3 touchPos = Input.mousePosition;
+                float screenMidX = Screen.width / 2f;
+
+                if (touchPos.x < screenMidX)
+                {
+                    holdingLeft = true;
+                    holdingRight = false;
+                }
+                else
+                {
+                    holdingRight = true;
+                    holdingLeft = false;
+                }
             }
             else
             {
-                holdingRight = true;
                 holdingLeft = false;
+                holdingRight = false;
             }
-        }
-        else
-        {
-            holdingLeft = false;
-            holdingRight = false;
         }
 
         if (prograssbar.fillAmount == 0f)

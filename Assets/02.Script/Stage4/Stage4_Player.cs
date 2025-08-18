@@ -25,17 +25,22 @@ public class Stage4_Player : MonoBehaviour
     }
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0) && isGround && canJump)
+
+        if (!PauseManager.Instance || !PauseManager.Instance.IsPaused)
         {
-            playerRb.AddForce(Vector2.up * 3.2f, ForceMode2D.Impulse);
-            canJump = false;
+            if (Input.GetMouseButtonDown(0) && isGround && canJump)
+            {
+                playerRb.AddForce(Vector2.up * 3.2f, ForceMode2D.Impulse);
+                canJump = false;
 
-            // 애니메이션에 IsJump 활성화
-            SoundManager.Instance.Play("Jump");
-            anim.SetBool("IsJump", true);
+                // 애니메이션에 IsJump 활성화
+                SoundManager.Instance.Play("Jump");
+                anim.SetBool("IsJump", true);
 
-            StartCoroutine(JumpCooldown());
+                StartCoroutine(JumpCooldown());
+            }
         }
+
     }
 
     IEnumerator JumpCooldown()

@@ -53,32 +53,38 @@ public class LineDrawBlocker2D : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            Vector3 worldPos = GetWorldPoint();
-            if (IsInStartRange(worldPos))
-            {
-                StartDrawing(worldPos);
-            }
-        }
-        else if (Input.GetMouseButton(0) && isDragging)
-        {
-            pointAddTimer += Time.deltaTime;
 
-            if (pointAddTimer >= maxPointInterval)
-            {
-                AddPointIfNeeded(forceAdd: true);
-                pointAddTimer = 0f;
-            }
-            else
-            {
-                AddPointIfNeeded(forceAdd: false);
-            }
-        }
-        else if (Input.GetMouseButtonUp(0))
+        if (!PauseManager.Instance || !PauseManager.Instance.IsPaused)
         {
-            EndDrawing();
+            if (Input.GetMouseButtonDown(0))
+            {
+                Vector3 worldPos = GetWorldPoint();
+                if (IsInStartRange(worldPos))
+                {
+                    StartDrawing(worldPos);
+                }
+            }
+            else if (Input.GetMouseButton(0) && isDragging)
+            {
+                pointAddTimer += Time.deltaTime;
+
+                if (pointAddTimer >= maxPointInterval)
+                {
+                    AddPointIfNeeded(forceAdd: true);
+                    pointAddTimer = 0f;
+                }
+                else
+                {
+                    AddPointIfNeeded(forceAdd: false);
+                }
+            }
+            else if (Input.GetMouseButtonUp(0))
+            {
+                EndDrawing();
+            }
         }
+
+
     }
 
     void StartDrawing(Vector3 firstPoint)

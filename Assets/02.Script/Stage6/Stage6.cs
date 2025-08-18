@@ -44,21 +44,25 @@ public class Stage6 : StageBase
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0) ||
-            (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began))
+        if (!PauseManager.Instance || !PauseManager.Instance.IsPaused)
         {
-            // 시작 후 1초 이내 첫 터치 → FailEnding 호출
-            if (Time.time - startTime <= 1f && !isfinish)
-            {
-                StopAllCoroutines();
-                StartCoroutine(FailEnding());
-                isfinish = true;
-                return; // 다른 처리 막기
-            }
 
-            if (!isfinish)
+            if (Input.GetMouseButtonDown(0) ||
+            (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began))
             {
-                HandleTouch();
+                // 시작 후 1초 이내 첫 터치 → FailEnding 호출
+                if (Time.time - startTime <= 1f && !isfinish)
+                {
+                    StopAllCoroutines();
+                    StartCoroutine(FailEnding());
+                    isfinish = true;
+                    return; // 다른 처리 막기
+                }
+
+                if (!isfinish)
+                {
+                    HandleTouch();
+                }
             }
         }
     }

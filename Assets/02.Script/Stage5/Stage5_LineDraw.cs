@@ -59,27 +59,32 @@ public class Stage5_LineDraw : MonoBehaviour
             edgeCollider.enabled = false;
             points.Clear();
         }
-        if (Input.GetMouseButtonDown(0) && !isFinished)
-        {
-            StartDrawing(GetWorldPoint());
-        }
-        else if (Input.GetMouseButton(0) && isDragging && !isFinished)
-        {
-            pointAddTimer += Time.deltaTime;
 
-            if (pointAddTimer >= maxPointInterval)
-            {
-                AddPointIfNeeded(forceAdd: true);
-                pointAddTimer = 0f;
-            }
-            else
-            {
-                AddPointIfNeeded(forceAdd: false);
-            }
-        }
-        else if (Input.GetMouseButtonUp(0))
+        if (!PauseManager.Instance || !PauseManager.Instance.IsPaused)
         {
-            EndDrawing();
+
+            if (Input.GetMouseButtonDown(0) && !isFinished)
+            {
+                StartDrawing(GetWorldPoint());
+            }
+            else if (Input.GetMouseButton(0) && isDragging && !isFinished)
+            {
+                pointAddTimer += Time.deltaTime;
+
+                if (pointAddTimer >= maxPointInterval)
+                {
+                    AddPointIfNeeded(forceAdd: true);
+                    pointAddTimer = 0f;
+                }
+                else
+                {
+                    AddPointIfNeeded(forceAdd: false);
+                }
+            }
+            else if (Input.GetMouseButtonUp(0))
+            {
+                EndDrawing();
+            }
         }
     }
 

@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class ScoreStage : MonoBehaviour
 {
+
+    public Stage1 stage1;
     public StageManager stageManager;
     private int level;
     private float prevScore;
@@ -121,8 +123,10 @@ public class ScoreStage : MonoBehaviour
 
 
 
-    private void ReStart()
+    public void ReStart()
     {
+        stageManager.Stages[stageManager.curStage].SetActive(false);
+        stageManager.isStagePlaying = false;
         isReSet = false;
         stageManager.Life = 3;
         stageManager.StageLevel = 1;
@@ -134,6 +138,9 @@ public class ScoreStage : MonoBehaviour
         textCount.text = "0";
         prevScore = 0;
         prevLife = 3;
+        stage1.first = false;
+        SoundManager.Instance?.StopAllSfxKeepBgm();
+
         for (int i = 0; i < 3; i++)
         {
             lifeIcon[i].SetActive(false);

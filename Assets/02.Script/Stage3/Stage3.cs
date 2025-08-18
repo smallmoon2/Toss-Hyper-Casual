@@ -62,66 +62,69 @@ public class Stage3 : StageBase
 
     void HandleMouseDrag()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (!PauseManager.Instance || !PauseManager.Instance.IsPaused)
         {
-            dragStartPos = GetWorldPoint();
-            isDragging = true;
-        }
-        else if (Input.GetMouseButtonUp(0) && isDragging)
-        {
-            Vector3 dragEndPos = GetWorldPoint();
-            float deltaX = dragEndPos.x - dragStartPos.x;
-
-            if (deltaX > detectThreshold)
+            if (Input.GetMouseButtonDown(0))
             {
-                Debug.Log("坷弗率");
-                if (player != null )
-                    if (point < 2)
-                    {
-                        point++;
-                    }
-                    
+                dragStartPos = GetWorldPoint();
+                isDragging = true;
             }
-            else if (deltaX < -detectThreshold)
+            else if (Input.GetMouseButtonUp(0) && isDragging)
             {
-                Debug.Log("哭率");
-                if (player != null )
+                Vector3 dragEndPos = GetWorldPoint();
+                float deltaX = dragEndPos.x - dragStartPos.x;
+
+                if (deltaX > detectThreshold)
                 {
-                    if (point > 0)
+                    Debug.Log("坷弗率");
+                    if (player != null)
+                        if (point < 2)
+                        {
+                            point++;
+                        }
+
+                }
+                else if (deltaX < -detectThreshold)
+                {
+                    Debug.Log("哭率");
+                    if (player != null)
                     {
-                        point--;
+                        if (point > 0)
+                        {
+                            point--;
+                        }
                     }
                 }
-            }
-            player.transform.position = chearPos[point].position;
-            SoundManager.Instance.Play("Hit");
+                player.transform.position = chearPos[point].position;
+                SoundManager.Instance.Play("Hit");
 
 
-            isDragging = false;
+                isDragging = false;
 
-            if (Stage3_Clear.isOtherVersion)
-            {
-                if (point == 1)
+                if (Stage3_Clear.isOtherVersion)
                 {
-                    timeclear = false;
+                    if (point == 1)
+                    {
+                        timeclear = false;
+                    }
+                    else
+                    {
+                        timeclear = true;
+                    }
                 }
                 else
                 {
-                    timeclear = true;
+                    if (point == 1)
+                    {
+                        timeclear = true;
+                    }
+                    else
+                    {
+                        timeclear = false;
+                    }
                 }
-            }
-            else
-            {
-                if (point == 1)
-                {
-                    timeclear = true;
-                }
-                else
-                {
-                    timeclear = false;
-                }
-            }
 
+            }
         }
     }
 
