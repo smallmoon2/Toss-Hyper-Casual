@@ -6,7 +6,9 @@ using UnityEngine.UI;
 
 public class ScoreStage : MonoBehaviour
 {
+    public Fade fade;
 
+    public Image prograssbar;
     public Stage1 stage1;
     public StageManager stageManager;
     private int level;
@@ -125,6 +127,40 @@ public class ScoreStage : MonoBehaviour
 
     public void ReStart()
     {
+        // stageManager는 항상 활성이라고 가정
+        stageManager.StartCoroutine(ReStartRoutine());
+    }
+
+    private IEnumerator ReStartRoutine()
+    {
+        // 현재 씬에서 활성화된 Animator 전부 찾기
+        Animator[] animators = Object.FindObjectsByType<Animator>(FindObjectsSortMode.None);
+        fade.PlayScaleEffect();
+        PauseManager.Instance?.CloseSettings();
+        foreach (Animator anim in animators)
+        {
+            if (anim != null && anim.isActiveAndEnabled) // 활성 오브젝트 + 켜져있는 Animator만
+            {
+                anim.SetBool("IsFowardDown", false);
+                anim.SetBool("IsSliding", false);
+                anim.SetBool("IsWalkB", false);
+                anim.SetBool("IsJump", false);
+                anim.SetBool("IsRun", false);
+                anim.SetTrigger("AllReset");
+                anim.SetTrigger("IsSnackR");
+            }
+        }
+
+        // Time.timeScale = 0 이어도 1초 기다리게
+        yield return new WaitForSecondsRealtime(1f);
+
+        PerformReset();
+    }
+    private void PerformReset()
+    {
+
+
+        prograssbar.fillAmount = 1f;
         stageManager.Stages[stageManager.curStage].SetActive(false);
         stageManager.isStagePlaying = false;
         isReSet = false;
@@ -141,22 +177,10 @@ public class ScoreStage : MonoBehaviour
         stage1.first = false;
         SoundManager.Instance?.StopAllSfxKeepBgm();
 
-        for (int i = 0; i < 3; i++)
-        {
-            lifeIcon[i].SetActive(false);
-            Dancer[i].SetActive(true);
-        }
-
-
-        for (int i = 0; i < 3; i++)
-        {
-            Reveal[i].isStart = false;
-        }
-
-        for (int i = 0; i < 3; i++)
-        {
-            Reveal2[i].isStart = false;
-        }
+        for (int i = 0; i < 3; i++) { lifeIcon[i].SetActive(false); Dancer[i].SetActive(true); }
+        for (int i = 0; i < 3; i++) { Reveal[i].isStart = false; }
+        for (int i = 0; i < 3; i++) { Reveal2[i].isStart = false; }
     }
+
 
 }

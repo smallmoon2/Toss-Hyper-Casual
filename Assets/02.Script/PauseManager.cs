@@ -7,6 +7,9 @@ public class PauseManager : MonoBehaviour
     [SerializeField] GameObject settingsUI;
     [SerializeField] bool muteAudioOnPause = true;  // ← 이 옵션으로 on/off
     [SerializeField] float resumeDelay = 0.1f;
+
+    public bool isResetting = false;
+
     public bool IsPaused { get; private set; }
     Coroutine closeRoutine;
     [SerializeField] MonoBehaviour[] gameplayInputScripts;
@@ -20,7 +23,9 @@ public class PauseManager : MonoBehaviour
 
     public void OpenSettings()
     {
+        Debug.Log("리셋 활성화");
         Pause();
+        isResetting = true;
         if (settingsUI != null) settingsUI.SetActive(true);
     }
 

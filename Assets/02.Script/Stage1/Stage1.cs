@@ -7,7 +7,7 @@ public class Stage1 : StageBase
     public Door_Screen door;
     private int touchCount = 0;
     public int maxTouches = 10;
-    private Animator anim;
+    public Animator anim;
 
     public bool first;
     
@@ -54,7 +54,7 @@ public class Stage1 : StageBase
             {
                 if (!first)
                 {
-                    SoundManager.Instance.SetBGMVolume(0.02f);
+                    SoundManager.Instance.SetBGMVolume(0.04f);
 
                     StartCoroutine(UpdateProgressBar());
                     first = true;
